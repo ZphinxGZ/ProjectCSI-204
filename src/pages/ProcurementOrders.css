@@ -1,61 +1,65 @@
 /* ปรับสไตล์ของ procurement-orders */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
 .procurement-orders {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     padding: 20px;
     max-width: 900px;
     margin: 40px auto;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
+}
   
 .procurement-orders h1 {
     text-align: center;
     margin-bottom: 20px;
     font-size: 28px;
     color: #333;
-  }
+    font-weight: 600;
+}
 
 .procurement-orders p {
-        font-size: 16px;
-        color: #666;
-    }
+    font-size: 16px;
+    color: #666;
+    font-weight: 400;
+}
   
-  .procurement-orders section {
+.procurement-orders section {
     margin-bottom: 20px;
     padding: 15px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background: #f9f9f9;
     transition: all 0.3s ease-in-out;
-  }
+}
   
-  .procurement-orders section:hover {
+.procurement-orders section:hover {
     background: #f1f1f1;
-  }
+}
   
-  .procurement-orders h2 {
+.procurement-orders h2 {
     margin-bottom: 10px;
     color: #444;
-  }
+    font-weight: 600;
+}
   
-  .procurement-orders button {
+.procurement-orders button {
     padding: 10px 15px;
     background: linear-gradient(135deg, #4d9ef0, #007bff);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
     transition: all 0.3s ease;
-  }
+}
   
-  .procurement-orders button:disabled {
+.procurement-orders button:disabled {
     background: #ccc;
     cursor: not-allowed;
-  }
+}
   
-  .procurement-orders button:hover:not(:disabled) {
+.procurement-orders button:hover:not(:disabled) {
     background: linear-gradient(135deg, #70a8e4, #0056b3);
-  }
-  
+}
