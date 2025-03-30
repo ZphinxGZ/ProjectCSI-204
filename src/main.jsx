@@ -1,10 +1,33 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import App from "./App"; // Import App component
+import Dashboard from "./pages/Dashboard";
+import ProcurementOrders from "./pages/ProcurementOrders";
+import ProcurementPayments from "./pages/ProcurementPayments";
+import ProcurementWarehouse from "./pages/ProcurementWarehouse";
+import UserAccounts from "./pages/UserAccounts";
+import UserRoles from "./pages/UserRoles";
+import UserAudit from "./pages/UserAudit";
+import UserSecurity from "./pages/UserSecurity";
+import "./index.css";
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <Router>
+      <App> {/* Wrap Routes with App */}
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/procurement/orders" element={<ProcurementOrders />} />
+          <Route path="/procurement/payments" element={<ProcurementPayments />} />
+          <Route path="/procurement/warehouse" element={<ProcurementWarehouse />} />
+          <Route path="/user-management/accounts" element={<UserAccounts />} />
+          <Route path="/user-management/roles" element={<UserRoles />} />
+          <Route path="/user-management/audit" element={<UserAudit />} />
+          <Route path="/user-management/security" element={<UserSecurity />} />
+        </Routes>
+      </App>
+    </Router>
+  </StrictMode>
+);
