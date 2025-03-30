@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import ProcurementOrders from "./pages/ProcurementOrders";
 import ProcurementPayments from "./pages/ProcurementPayments";
 import ProcurementWarehouse from "./pages/ProcurementWarehouse";
+import ProcurementPR from "./pages/ProcurementPR";
 import UserAccounts from "./pages/UserAccounts";
 import UserRoles from "./pages/UserRoles";
 import UserAudit from "./pages/UserAudit";
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/procurement/orders" element={<ProcurementOrders />} />
           <Route path="/procurement/payments" element={<ProcurementPayments />} />
           <Route path="/procurement/warehouse" element={<ProcurementWarehouse />} />
+          <Route path="/procurement/pr" element={<ProcurementPR />} />
           <Route path="/user-management/accounts" element={<UserAccounts />} />
           <Route path="/user-management/roles" element={<UserRoles />} />
           <Route path="/user-management/audit" element={<UserAudit />} />
