@@ -5,6 +5,33 @@ const ProcurementOrders = () => {
   const [approvalStatus, setApprovalStatus] = useState("Pending");
   const [receivedGoods, setReceivedGoods] = useState(false);
 
+  const receiptDetailsList = [
+    {
+      id: 1,
+      quantityReceived: 10,
+      unit: "Boxes",
+      itemDescription: "Office Supplies",
+      receiptDate: "2023-10-01",
+      referencePONumber: "12345",
+    },
+    {
+      id: 2,
+      quantityReceived: 5,
+      unit: "Pallets",
+      itemDescription: "Electronics",
+      receiptDate: "2023-10-02",
+      referencePONumber: "67890",
+    },
+    {
+      id: 3,
+      quantityReceived: 7,
+      unit: "paper",
+      itemDescription: "game",
+      receiptDate: "2023-02-07",
+      referencePONumber: "56432",
+    },
+  ];
+
   const handleApprovalUpdate = () => {
     setApprovalStatus(approvalStatus === "Approved" ? "Pending" : "Approved");
   };
@@ -16,33 +43,36 @@ const ProcurementOrders = () => {
   return (
     <div className="procurement-orders">
       <h1>Procurement Orders Page</h1>
-      
-      {/* PO Details Section */}
-      <section className="po-details">
-        <h2>PO Details</h2>
-        <p>PO Number: 12345</p>
-        <p>Supplier: ABC Supplies</p>
-        <p>Items: 10</p>
-        <p>Total Amount: $500</p>
-      </section>
 
-      {/* Approval Status Section */}
-      <section className="approval-status">
-        <h2>Approval Status</h2>
-        <p>Status: {approvalStatus}</p>
-        <button onClick={handleApprovalUpdate}>
-          {approvalStatus === "Approved" ? "Revoke Approval" : "Approve"}
-        </button>
-      </section>
+      {receiptDetailsList.map((receipt) => (
+        <section key={receipt.id} className="receipt-details">
+          <h2>Receipt Details</h2>
+          <p>Quantity Received: {receipt.quantityReceived}</p>
+          <p>Unit: {receipt.unit}</p>
+          <p>Item Description: {receipt.itemDescription}</p>
+          <p>Receipt Date: {receipt.receiptDate}</p>
+          <p>Reference PO Number: {receipt.referencePONumber}</p>
 
-      {/* Goods Received Section */}
-      <section className="goods-received">
-        <h2>Goods Received</h2>
-        <p>{receivedGoods ? "Goods have been received." : "Goods not yet received."}</p>
-        <button onClick={handleGoodsReceived} disabled={receivedGoods}>
-          Mark as Received
-        </button>
-      </section>
+          {/* Approval and Goods Received Section */}
+          <div className="approval-and-received">
+            <h3>Approval and Goods Received</h3>
+            <div>
+              <h4>Approval Status</h4>
+              <p>Status: {approvalStatus}</p>
+              <button onClick={handleApprovalUpdate}>
+                {approvalStatus === "Approved" ? "Revoke Approval" : "Approve"}
+              </button>
+            </div>
+            <div>
+              <h4>Goods Received</h4>
+              <p>{receivedGoods ? "Goods have been received." : "Goods not yet received."}</p>
+              <button onClick={handleGoodsReceived} disabled={receivedGoods}>
+                Mark as Received
+              </button>
+            </div>
+          </div>
+        </section>
+      ))}
     </div>
   );
 };
