@@ -16,7 +16,14 @@ export const Menus = [
     name: "Procurement",
     subMenu: [
       {
-        name: "ใบคำสั่งซื้อ",
+        name: "ใบขอซื้อ ( PR )",
+        desc: "lorem ipsum dolor sit amet",
+        icon: ShoppingBag,
+        link: "/procurement/orders",
+        onClick: (navigate) => navigate && navigate("/procurement/orders"), // Ensure navigate is defined
+      },
+      {
+        name: "ใบคำสั่งซื้อ ( PO )",
         desc: "lorem ipsum dolor sit amet",
         icon: ShoppingBag,
         link: "/procurement/orders",
