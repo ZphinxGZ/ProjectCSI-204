@@ -10,7 +10,7 @@ export const Menus = [
     name: "Dashboard",
     gridCols: 2,
     link: "/dashboard",
-    onClick: (navigate) => navigate && navigate("/dashboard"), // Ensure navigate is defined
+    onClick: (navigate) => navigate && navigate("/dashboard"), 
   },
   {
     name: "Procurement",
@@ -20,28 +20,28 @@ export const Menus = [
         desc: "lorem ipsum dolor sit amet",
         icon: ShoppingBag,
         link: "/procurement/pr",
-        onClick: (navigate) => navigate && navigate("/procurement/pr"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/procurement/pr"), 
       },
       {
         name: "ใบคำสั่งซื้อ ( PO )",
         desc: "lorem ipsum dolor sit amet",
         icon: ShoppingBag,
         link: "/procurement/orders",
-        onClick: (navigate) => navigate && navigate("/procurement/orders"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/procurement/orders"),
       },
       {
         name: "การชำระเงิน & บัญชี",
         desc: "lorem ipsum dolor sit amet",
         icon: MapPin,
         link: "/procurement/payments",
-        onClick: (navigate) => navigate && navigate("/procurement/payments"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/procurement/payments"),
       },
       {
         name: "คลังสินค้า",
         desc: "lorem ipsum dolor sit amet",
         icon: BellDot,
         link: "/procurement/warehouse",
-        onClick: (navigate) => navigate && navigate("/procurement/warehouse"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/procurement/warehouse"),
       }
     ],
     gridCols: 1,
@@ -54,28 +54,28 @@ export const Menus = [
         desc: "lorem ipsum dolor sit amet",
         icon: CircleHelp,
         link: "/user-management/accounts",
-        onClick: (navigate) => navigate && navigate("/user-management/accounts"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/user-management/accounts"),
       },
       {
         name: "กำหนดสิทธิ์การเข้าถึงและบทบาท",
         desc: "lorem ipsum dolor sit amet",
         icon: MessageCircle,
         link: "/user-management/roles",
-        onClick: (navigate) => navigate && navigate("/user-management/roles"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/user-management/roles"),
       },
       {
         name: "Audit & Monitoring",
         desc: "lorem ipsum dolor sit amet",
         icon: TriangleAlert,
         link: "/user-management/audit",
-        onClick: (navigate) => navigate && navigate("/user-management/audit"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/user-management/audit"),
       },
       {
         name: "Security & Access",
         desc: "lorem ipsum dolor sit amet",
         icon: TriangleAlert,
         link: "/user-management/security",
-        onClick: (navigate) => navigate && navigate("/user-management/security"), // Ensure navigate is defined
+        onClick: (navigate) => navigate && navigate("/user-management/security"),
       },
     ],
     gridCols: 1,
