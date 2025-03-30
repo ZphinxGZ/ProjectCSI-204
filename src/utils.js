@@ -17,21 +17,21 @@ export const Menus = [
     subMenu: [
       {
         name: "ใบคำสั่งซื้อ",
-        desc: "Browse templates",
+        desc: "lorem ipsum dolor sit amet",
         icon: ShoppingBag,
         link: "/procurement/orders",
         onClick: (navigate) => navigate && navigate("/procurement/orders"), // Ensure navigate is defined
       },
       {
         name: "การชำระเงิน & บัญชี",
-        desc: "Upcoming events",
+        desc: "lorem ipsum dolor sit amet",
         icon: MapPin,
         link: "/procurement/payments",
         onClick: (navigate) => navigate && navigate("/procurement/payments"), // Ensure navigate is defined
       },
       {
         name: "คลังสินค้า",
-        desc: "Changelog",
+        desc: "lorem ipsum dolor sit amet",
         icon: BellDot,
         link: "/procurement/warehouse",
         onClick: (navigate) => navigate && navigate("/procurement/warehouse"), // Ensure navigate is defined
@@ -44,28 +44,28 @@ export const Menus = [
     subMenu: [
       {
         name: "จัดการบัญชีผู้ใช้",
-        desc: "Center",
+        desc: "lorem ipsum dolor sit amet",
         icon: CircleHelp,
         link: "/user-management/accounts",
         onClick: (navigate) => navigate && navigate("/user-management/accounts"), // Ensure navigate is defined
       },
       {
         name: "กำหนดสิทธิ์การเข้าถึงและบทบาท",
-        desc: "Project help",
+        desc: "lorem ipsum dolor sit amet",
         icon: MessageCircle,
         link: "/user-management/roles",
         onClick: (navigate) => navigate && navigate("/user-management/roles"), // Ensure navigate is defined
       },
       {
         name: "Audit & Monitoring",
-        desc: "Urgent issues",
+        desc: "lorem ipsum dolor sit amet",
         icon: TriangleAlert,
         link: "/user-management/audit",
         onClick: (navigate) => navigate && navigate("/user-management/audit"), // Ensure navigate is defined
       },
       {
         name: "Security & Access",
-        desc: "Urgent issues",
+        desc: "lorem ipsum dolor sit amet",
         icon: TriangleAlert,
         link: "/user-management/security",
         onClick: (navigate) => navigate && navigate("/user-management/security"), // Ensure navigate is defined
