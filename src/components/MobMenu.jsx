@@ -28,7 +28,7 @@ const MobMenu = ({ Menus, navigate }) => { // Accept navigate as a prop
       </button>
 
       <motion.div
-        className="fixed left-0 right-0 top-16 overflow-y-auto h-full bg-[#18181A] backdrop-blur text-white p-6 pb-20"
+        className="fixed left-0 right-0 top-16 overflow-y-auto h-full bg-[#8EC5FC] backdrop-blur text-white p-6 pb-20"
         initial={{ x: "-100%" }}
         animate={{ x: isOpen ? "0%" : "-100%" }}
       >
