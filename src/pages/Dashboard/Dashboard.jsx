@@ -59,7 +59,7 @@ const Dashboard = () => {
         <div className="header-title">
           <MdOutlineInventory2 className="header-icon" />
           <div>
-            <h1>ระบบจัดการคลังสินค้า</h1>
+            <h1>Dashbord</h1>
             <p>ภาพรวมการดำเนินงานคลังสินค้าและการเคลื่อนไหวของสินค้า</p>
           </div>
         </div>
