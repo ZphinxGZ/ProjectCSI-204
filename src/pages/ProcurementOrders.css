@@ -1,97 +1,105 @@
-/* ปรับสไตล์ของ procurement-orders ให้ดูพรีเมียมและทันสมัย */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
+/* ตั้งค่าพื้นหลังสีขาว และจัดระยะห่าง */
 .procurement-orders {
-    font-family: 'Inter', sans-serif;
-    padding: 40px;
-    max-width: 900px;
-    margin: 50px auto;
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
-    border-radius: 16px;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.procurement-orders:hover {
-    transform: translateY(-8px);
-    box-shadow: 0px 12px 35px rgba(0, 0, 0, 0.15);
-}
-
-.procurement-orders h1 {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* จัดสไตล์หัวข้อ */
+  .procurement-orders-title {
     text-align: center;
-    margin-bottom: 25px;
-    font-size: 32px;
-    color: #222;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.procurement-orders p {
-    font-size: 17px;
-    color: #555;
-    font-weight: 400;
-    line-height: 1.8;
-}
-
-.procurement-orders section {
-    margin-bottom: 30px;
-    padding: 25px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    background: #ffffff;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.procurement-orders section:hover {
-    background: #f4f4f4;
-    border-color: #bbb;
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-.procurement-orders h2 {
-    margin-bottom: 18px;
     color: #333;
-    font-weight: 700;
     font-size: 24px;
-}
-
-.procurement-orders h3, .procurement-orders h4 {
-    color: #444;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
-.procurement-orders button {
-    padding: 14px 24px;
-    background: linear-gradient(135deg, #4d9ef0, #007bff);
+    margin-bottom: 20px;
+  }
+  
+  /* ตั้งค่าตาราง */
+  .procurement-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* สไตล์หัวตาราง */
+  .procurement-orders-header {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+  }
+  
+  /* สไตล์แต่ละแถว */
+  .procurement-orders-cell {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    color: #555;
+  }
+  
+  /* จัดกล่องข้อความสำหรับรายการสินค้า */
+  .procurement-orders-item-tag {
+    display: inline-block;
+    background-color: #f1f1f1;
+    padding: 6px 12px;
+    margin: 4px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  /* สถานะสีเขียว */
+  .procurement-orders-status-completed {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  /* สถานะสีแดง */
+  .procurement-orders-status-rejected {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  /* จุดสีสำหรับ PR / PE */
+  .procurement-orders-green-dot {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .procurement-orders-red-dot {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  /* แถวสลับสี */
+  .procurement-orders-row:nth-child(odd) {
+    background-color: #fcfcfc;
+  }
+  
+  /* Hover Effect */
+  .procurement-orders-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* ปรับปุ่มให้ดูสวยขึ้น */
+  button {
+    background-color: #007bff;
     color: white;
+    padding: 6px 12px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
-    font-weight: 700;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.procurement-orders button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-.procurement-orders button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #70a8e4, #0056b3);
-    box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.15);
-}
-
-.procurement-orders .approval-and-received div {
-    margin-bottom: 18px;
-}
-
-.procurement-orders .approval-and-received div:last-child {
-    margin-bottom: 0;
-}
+    transition: background 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
