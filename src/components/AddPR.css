@@ -1,0 +1,99 @@
+.add-pr {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
+}
+
+.add-pr h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.add-pr-section {
+  margin-bottom: 30px;
+}
+
+.add-pr-section h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.add-pr-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.add-pr-item input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+  min-width: 150px;
+  font-size: 14px;
+}
+
+.add-pr-item button {
+  padding: 10px 15px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-pr-item button:hover {
+  background-color: #d9363e;
+}
+
+.add-pr-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.add-pr-summary {
+  text-align: right;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+}
+
+.add-pr-save-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.add-pr-save-button:hover {
+  background-color: #45a049;
+}
+
+.add-pr button {
+  transition: background-color 0.3s ease;
+}
