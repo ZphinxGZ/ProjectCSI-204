@@ -36,6 +36,15 @@ const ProcurementOrders = () => {
     // ...หัวข้ออื่นๆ...
   ];
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const totalPages = Math.ceil(receiptDetailsList.length / itemsPerPage);
+  const paginatedData = receiptDetailsList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const handlePoNumberClick = (poNumber) => {
     console.log(`Navigating to OrderDetails with poNumber: ${poNumber}`); // Debug log
     navigate(`/order-details`); 
@@ -94,6 +103,96 @@ const ProcurementOrders = () => {
     // คืนค่าปกติสำหรับกรณีอื่นๆ
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const renderPagination = () => {
+    const paginationButtons = [];
+    const totalPages = Math.ceil(receiptDetailsList.length / itemsPerPage);
+  
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        paginationButtons.push(
+          <button
+            key={i}
+            className={`pagination-button ${currentPage === i ? "active" : ""}`}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </button>
+        );
+      }
+    } else {
+      if (currentPage > 3) {
+        paginationButtons.push(
+          <button
+            key={1}
+            className="pagination-button"
+            onClick={() => handlePageChange(1)}
+          >
+            1
+          </button>
+        );
+        if (currentPage > 4) {
+          paginationButtons.push(<span key="start-ellipsis">...</span>);
+        }
+      }
+  
+      const startPage = Math.max(2, currentPage - 2);
+      const endPage = Math.min(totalPages - 1, currentPage + 2);
+  
+      for (let i = startPage; i <= endPage; i++) {
+        paginationButtons.push(
+          <button
+            key={i}
+            className={`pagination-button ${currentPage === i ? "active" : ""}`}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </button>
+        );
+      }
+  
+      if (currentPage < totalPages - 3) {
+        if (currentPage < totalPages - 4) {
+          paginationButtons.push(<span key="end-ellipsis">...</span>);
+        }
+        paginationButtons.push(
+          <button
+            key={totalPages}
+            className="pagination-button"
+            onClick={() => handlePageChange(totalPages)}
+          >
+            {totalPages}
+          </button>
+        );
+      }
+    }
+  
+    return (
+      <div className="pagination">
+        {currentPage > 1 && (
+          <button
+            className="pagination-button"
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            &lt;
+          </button>
+        )}
+        {paginationButtons}
+        {currentPage < totalPages && (
+          <button
+            className="pagination-button"
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            &gt;
+          </button>
+        )}
+      </div>
+    );
+  };
+
   return ( 
     // ส่วนที่เรนเดอร์ UI ของ component
     <div className="procurement-orders">
@@ -117,7 +216,7 @@ const ProcurementOrders = () => {
           </tr>
         </thead>
         <tbody>
-          {receiptDetailsList.map((receipt) => (
+          {paginatedData.map((receipt) => (
             <tr key={receipt.id} className="procurement-orders-row">
               {headers.map((header) => (
                 <td key={header.key} className="procurement-orders-cell">
@@ -129,6 +228,7 @@ const ProcurementOrders = () => {
           ))}
         </tbody>
       </table>
+      {renderPagination()}
     </div>
   );
 };
