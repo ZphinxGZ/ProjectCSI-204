@@ -1,40 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
 import "./OrderDetails.css";
 
-const OrderDetails = ({ order }) => {
-  if (!order) {
-    return <div className="order-details">No order selected.</div>;
-  }
+const OrderDetails = ({ order, onSave }) => {
+  const [editableOrder, setEditableOrder] = useState(order);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditableOrder({ ...editableOrder, [name]: value });
+  };
+
+  const handleItemChange = (index, field, value) => {
+    const updatedItems = [...editableOrder.items];
+    updatedItems[index][field] = value;
+    setEditableOrder({ ...editableOrder, items: updatedItems });
+  };
 
   return (
     <div className="order-details">
-      <h1 className="order-details-title">Order Details</h1>
-      <div className="order-details-section">
-        <h2>General Information</h2>
-        <p><strong>PO Number:</strong> {order.poNumber}</p>
-        <p><strong>Supplier:</strong> {order.supplier}</p>
-        <p><strong>Status:</strong> <span className={order.status.includes("ไม่อนุมัติ") ? "order-status-rejected" : "order-status-completed"}>{order.status}</span></p>
+      <h1 className="order-details-title">เลขที่ใบสั่งซื้อ {editableOrder.poNumber}</h1>
+
+      {/* ข้อมูลผู้ขาย */}
+      <div className="order-section">
+        <h2>ผู้ขาย</h2>
+        <label>ชื่อร้านค้า / บริษัท / บุคคล</label>
+        <input type="text" name="supplier" value={editableOrder.supplier} onChange={handleChange} />
+
+        <label>ที่อยู่</label>
+        <textarea name="address" value={editableOrder.address || ""} onChange={handleChange}></textarea>
+
+        <label>เบอร์โทร</label>
+        <input type="text" name="phone" value={editableOrder.phone || ""} onChange={handleChange} />
+
+        <label>อีเมล</label>
+        <input type="email" name="email" value={editableOrder.email || ""} onChange={handleChange} />
       </div>
-      <div className="order-details-section">
-        <h2>Items</h2>
-        <ul>
-          {order.items.map((item, index) => (
-            <li key={index} className="order-item">{item}</li>
-          ))}
-        </ul>
+
+      {/* วันที่ และ ประเภทการสั่งซื้อ */}
+      <div className="order-section">
+        <h2>วันที่</h2>
+        <input type="date" name="dueDate" value={editableOrder.dueDate} onChange={handleChange} />
+
+        <h2>ประเภทการสั่งซื้อ</h2>
+        <select name="orderType" value={editableOrder.orderType || ""} onChange={handleChange}>
+          <option value="วัตถุดิบ">วัตถุดิบ</option>
+          <option value="สินค้า">สินค้า</option>
+        </select>
       </div>
-      <div className="order-details-section">
-        <h2>Financial Details</h2>
-        <p><strong>Pending Payment:</strong> {order.pendingPayment.toFixed(2)}</p>
-        <p><strong>Paid:</strong> {order.paid.toFixed(2)}</p>
-        <p><strong>Total:</strong> {order.total.toFixed(2)}</p>
-        <p><strong>Due Date:</strong> {order.dueDate}</p>
+
+      {/* รายการสินค้า */}
+      <div className="order-section">
+        <h2>รายการ</h2>
+        {editableOrder.items.map((item, index) => (
+          <div key={index} className="order-item">
+            <input
+              type="text"
+              value={item.name}
+              onChange={(e) => handleItemChange(index, "name", e.target.value)}
+            />
+            <input
+              type="number"
+              value={item.quantity}
+              onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+            />
+            <input
+              type="number"
+              value={item.price}
+              onChange={(e) => handleItemChange(index, "price", e.target.value)}
+            />
+          </div>
+        ))}
       </div>
-      <div className="order-details-section">
-        <h2>References</h2>
-        <p><strong>PR Number:</strong> {order.prNumber}</p>
-        <p><strong>PE Number:</strong> {order.peNumber}</p>
-      </div>
+
+      {/* ปุ่มบันทึก */}
+      <button onClick={() => onSave(editableOrder)}>บันทึก</button>
     </div>
   );
 };
