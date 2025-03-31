@@ -38,7 +38,7 @@ const ProcurementOrders = () => {
 
   const handlePoNumberClick = (poNumber) => {
     console.log(`Navigating to OrderDetails with poNumber: ${poNumber}`); // Debug log
-    navigate(`/order-details/${poNumber}`); 
+    navigate(`/order-details`); 
     // Navigate to the OrderDetails page with the poNumber as a parameter
   };
 
