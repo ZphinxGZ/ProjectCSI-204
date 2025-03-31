@@ -12,6 +12,7 @@ const ProcurementWarehouse = () => {
   const [selectedWarehouse, setSelectedWarehouse] = useState("Main Warehouse");
   const [showAddModal, setShowAddModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [withdrawalLogs, setWithdrawalLogs] = useState([]);
   const itemsPerPage = 5;
 
   const headers = [
@@ -41,6 +42,25 @@ const ProcurementWarehouse = () => {
           : stock
       )
     );
+    const withdrawnItem = stockDetailsList.find((stock) => stock.id === id);
+    setWithdrawalLogs((prevLogs) => [
+      ...prevLogs,
+      { item: withdrawnItem.item, amount, date: new Date().toLocaleString() },
+    ]);
+    checkLowStock(id);
+  };
+
+  const checkLowStock = (id) => {
+    const stock = stockDetailsList.find((item) => item.id === id);
+    if (stock.remaining < stock.minStock) {
+      alert(`สินค้าต่ำกว่าระดับขั้นต่ำ: ${stock.item}. กำลังสร้าง PR อัตโนมัติ...`);
+      createPR(stock);
+    }
+  };
+
+  const createPR = (stock) => {
+    console.log(`สร้าง PR สำหรับสินค้า: ${stock.item}, จำนวนขั้นต่ำ: ${stock.minStock}`);
+    // Logic to create PR can be added here
   };
 
   const renderCell = (key, value, stock) => {
@@ -214,6 +234,14 @@ const ProcurementWarehouse = () => {
         </tbody>
       </table>
       {renderPagination()}
+      <h2>บันทึกการเบิกจ่ายพัสดุ</h2>
+      <ul>
+        {withdrawalLogs.map((log, index) => (
+          <li key={index}>
+            {log.date}: เบิก {log.amount} {log.item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
