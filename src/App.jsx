@@ -5,6 +5,8 @@ import MobMenu from "./components/MobMenu";
 import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import AddOrder from "./components/AddOrder";
+import PRDetails from "./pages/PRDetails";
+import AddPR from "./components/AddPR";
 
 export default function App({ children }) { // Accept children as a prop
   const navigate = useNavigate();
@@ -56,6 +58,8 @@ export default function App({ children }) { // Accept children as a prop
       <main className="pt-16"> {/* Add padding to prevent content overlap */}
         <Routes>
           <Route path="/add-order" element={<AddOrder />} />
+          <Route path="/pr-details/:prNumber" element={<PRDetails />} />
+          <Route path="/add-pr" element={<AddPR />} />
         </Routes>
         {children} {/* Render routed pages here */}
       </main>
