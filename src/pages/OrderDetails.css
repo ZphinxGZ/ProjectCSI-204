@@ -1,0 +1,50 @@
+.order-details {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-details-title {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.order-details-section {
+  margin-bottom: 20px;
+}
+
+.order-details-section h2 {
+  color: #555;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.order-details-section p {
+  color: #666;
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.order-item {
+  background-color: #f1f1f1;
+  padding: 6px 12px;
+  margin: 4px 0;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.order-status-completed {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.order-status-rejected {
+  color: #dc3545;
+  font-weight: bold;
+}

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProcurementOrders.css";
+import OrderDetails from "./OrderDetails";
 
 const ProcurementOrders = () => {
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
   const receiptDetailsList = [
     { id: 1, poNumber: "PO-20250003", supplier: "ตาล", items: ["ssss x1", "ssss x111"], prNumber: "PR-20250002", peNumber: "PE-20250002", pendingPayment: 0.0, paid: 5555.0, total: 5555.0, dueDate: "31/03/2025", status: "เสร็จสมบูรณ์" },
     { id: 2, poNumber: "PO-20250002", supplier: "อู๋", items: ["test x1", "test x2"], prNumber: "PR-20250001", peNumber: "-", pendingPayment: 0.0, paid: 0.0, total: 154.0, dueDate: "31/03/2025", status: "ไม่อนุมัติ 'สั่งซื้อ'" },
@@ -62,6 +65,7 @@ const ProcurementOrders = () => {
             {headers.map((header) => (
               <th key={header.key} className="procurement-orders-header">{header.label}</th>
             ))}
+            <th className="procurement-orders-header">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -72,10 +76,14 @@ const ProcurementOrders = () => {
                   {renderCell(header.key, receipt[header.key])}
                 </td>
               ))}
+              <td className="procurement-orders-cell">
+                <button onClick={() => setSelectedOrder(receipt)}>View Details</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {selectedOrder && <OrderDetails order={selectedOrder} />}
     </div>
   );
 };
