@@ -1,5 +1,5 @@
 import React, { useState } from "react"; 
-// นำเข้า React และ useState (hook สำหรับจัดการ state)
+import { useNavigate } from "react-router-dom"; 
 
 import "./ProcurementOrders.css"; 
 // นำเข้าไฟล์ CSS สำหรับจัดการสไตล์ของหน้า ProcurementOrders
@@ -9,6 +9,9 @@ import OrderDetails from "../components/OrderDetails";
 
 const ProcurementOrders = () => { 
   // สร้างฟังก์ชัน component ชื่อ ProcurementOrders
+
+  const navigate = useNavigate(); 
+  // ใช้ useNavigate hook สำหรับการนำทาง
 
   const receiptDetailsList = [ 
     // กำหนดข้อมูลตัวอย่าง (mock data) สำหรับรายการใบสั่งซื้อ
@@ -34,7 +37,9 @@ const ProcurementOrders = () => {
   ];
 
   const handlePoNumberClick = (poNumber) => {
-    console.log(`PO Number clicked: ${poNumber}`);
+    console.log(`Navigating to OrderDetails with poNumber: ${poNumber}`); // Debug log
+    navigate(`/order-details/${poNumber}`); 
+    // Navigate to the OrderDetails page with the poNumber as a parameter
   };
 
   const renderCell = (key, value) => { 

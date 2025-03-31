@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import "./OrderDetails.css";
 
 const SellerInfo = ({ editableOrder, handleChange }) => (
@@ -68,7 +69,13 @@ const OrderItems = ({ items, handleItemChange }) => (
 );
 
 const OrderDetails = ({ order, onSave, onCancel }) => {
-  const [editableOrder, setEditableOrder] = useState(order);
+  const { poNumber } = useParams();
+  console.log(`Rendering OrderDetails for poNumber: ${poNumber}`); // Debug log
+
+  const [editableOrder, setEditableOrder] = useState({
+    ...order,
+    poNumber: poNumber || order.poNumber,
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
