@@ -83,6 +83,17 @@
     font-weight: bold;
 }
 
+/* Order Status */
+.order-section select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
 /* Save Button */
 .order-details button {
     display: block;
@@ -100,4 +111,16 @@
 
 .order-details button:hover {
     background-color: #0056b3;
+}
+
+/* Cancel Button */
+.cancel-button {
+    background-color: #dc3545;
+    color: #fff;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #a71d2a;
 }
