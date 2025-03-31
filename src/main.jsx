@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import App from "./App"; // Import App component
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import ProcurementOrders from "./pages/ProcurementOrders";
 import OrderDetails from "./components/OrderDetails";
 import ProcurementPayments from "./pages/ProcurementPayments";

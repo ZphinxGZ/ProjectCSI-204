@@ -42,6 +42,10 @@ const ProcurementOrders = () => {
     // Navigate to the OrderDetails page with the poNumber as a parameter
   };
 
+  const handleAddOrderClick = () => {
+    navigate("/add-order");
+  };
+
   const renderCell = (key, value) => { 
     // ฟังก์ชันสำหรับเรนเดอร์ค่าของแต่ละเซลล์ในตาราง
     if (key === "items") { 
@@ -95,6 +99,13 @@ const ProcurementOrders = () => {
     <div className="procurement-orders">
       <h1 className="procurement-orders-title">Procurement Orders</h1> 
       {/* แสดงหัวข้อของหน้า */}
+      <button 
+        className="procurement-orders-add-button" 
+        onClick={handleAddOrderClick}
+      >
+        เพิ่ม Order
+      </button>
+      {/* Add button for adding a new order */}
       <table className="procurement-orders-table"> 
         {/* สร้างตาราง */}
         <thead>

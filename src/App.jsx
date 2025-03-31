@@ -3,6 +3,8 @@ import Logo from "./assets/logohome.png";
 import DesktopMenu from "./components/DesktopMenu";
 import MobMenu from "./components/MobMenu";
 import { useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import AddOrder from "./components/AddOrder";
 
 export default function App({ children }) { // Accept children as a prop
   const navigate = useNavigate();
@@ -52,6 +54,9 @@ export default function App({ children }) { // Accept children as a prop
         </nav>
       </header>
       <main className="pt-16"> {/* Add padding to prevent content overlap */}
+        <Routes>
+          <Route path="/add-order" element={<AddOrder />} />
+        </Routes>
         {children} {/* Render routed pages here */}
       </main>
     </div>
