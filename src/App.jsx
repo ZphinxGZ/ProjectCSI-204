@@ -9,7 +9,7 @@ export default function App({ children }) { // Accept children as a prop
 
   return (
     <div>
-      <header className="h-16 text-[15px] fixed top-0 left-0 right-0 flex-center bg-[#18181A] z-50">
+      <header className="h-16 text-[15px] fixed top-0 left-0 right-0 flex-center bg-[#18181A] z-50 navbar">
         <nav className="px-3.5 flex-center-between w-full max-w-7xl mx-auto">
           <button
             className="flex-center gap-x-3 z-[999] relative"
