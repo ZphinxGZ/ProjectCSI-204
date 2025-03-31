@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import App from "./App"; // Import App component
 import Dashboard from "./pages/Dashboard";
 import ProcurementOrders from "./pages/ProcurementOrders";
+import OrderDetails from "./components/OrderDetails";
 import ProcurementPayments from "./pages/ProcurementPayments";
 import ProcurementWarehouse from "./pages/ProcurementWarehouse";
 import ProcurementPR from "./pages/ProcurementPR";
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/procurement/orders" element={<ProcurementOrders />} />
+          <Route path="/order-details" element={<OrderDetails />} />
           <Route path="/procurement/payments" element={<ProcurementPayments />} />
           <Route path="/procurement/warehouse" element={<ProcurementWarehouse />} />
           <Route path="/procurement/pr" element={<ProcurementPR />} />

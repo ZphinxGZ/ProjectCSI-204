@@ -54,6 +54,7 @@ export default function DesktopMenu({ menu, onClick }) {
       {hasSubMenu && (
         <motion.div
           className="sub-menu"
+          style={{ backgroundColor: "#18181A" }}
           initial="exit"
           animate={isHover ? "enter" : "exit"}
           variants={subMenuAnimate}
@@ -79,7 +80,7 @@ export default function DesktopMenu({ menu, onClick }) {
                     </p>
                   )}
                   <div className="flex-center gap-x-4 group/menubox">
-                    <div className="bg-white/5 w-fit p-2 rounded-md group-hover/menubox:bg-white group-hover/menubox:text-gray-900 duration-300">
+                    <div className="bg-white/5 w-fit p-2 rounded-md group-hover/menubox:bg-gray-700 group-hover/menubox:text-gray-900 duration-300">
                       {submenu.icon && <submenu.icon />}
                     </div>
                     <div>
