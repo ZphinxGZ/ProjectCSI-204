@@ -13,7 +13,7 @@ body {
     @apply absolute top-[4.2rem] p-[15px] rounded-[6px] origin-[50%_-170px] backdrop-blur bg-white/[0.04];
   }
   .navbar {
-    @apply text-gray-300; /* Keep navbar text color as gray */
+    @apply text-white; /* Keep navbar text color as gray */
   }
 }
 

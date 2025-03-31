@@ -34,6 +34,7 @@ export default function DesktopMenu({ menu, onClick }) {
   return (
     <motion.li
       className="group/link"
+      
       onHoverStart={() => {
         toggleHoverMenu();
       }}
@@ -45,7 +46,7 @@ export default function DesktopMenu({ menu, onClick }) {
         if (menu.onClick) menu.onClick(onClick); 
       }}
     >
-      <span className="flex-center gap-1 hover:bg-white/5 cursor-pointer px-3 py-1 rounded-xl">
+      <span className="flex-center gap-1 hover:bg-[#8EC5FC] cursor-pointer px-3 py-1 rounded-xl">
         {menu.name}
         {hasSubMenu && (
           <ChevronDown className="mt-[0.6px] group-hover/link:rotate-180 duration-200" />
@@ -54,7 +55,7 @@ export default function DesktopMenu({ menu, onClick }) {
       {hasSubMenu && (
         <motion.div
           className="sub-menu"
-          style={{ backgroundColor: "#18181A" }}
+          style={{ backgroundColor: "#8EC5FC" }}
           initial="exit"
           animate={isHover ? "enter" : "exit"}
           variants={subMenuAnimate}
@@ -80,7 +81,7 @@ export default function DesktopMenu({ menu, onClick }) {
                     </p>
                   )}
                   <div className="flex-center gap-x-4 group/menubox">
-                    <div className="bg-white/5 w-fit p-2 rounded-md group-hover/menubox:bg-gray-700 group-hover/menubox:text-gray-900 duration-300">
+                    <div className="bg-[#8EC5FC] w-fit p-2 rounded-md group-hover/menubox:bg-gray-700 group-hover/menubox:text-gray-900 duration-300">
                       {submenu.icon && <submenu.icon />}
                     </div>
                     <div>
