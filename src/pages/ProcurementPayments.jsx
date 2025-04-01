@@ -7,7 +7,7 @@ import "./ProcurementPayments.css";
 
 const ProcurementPayments = () => {
   const [filterStatus, setFilterStatus] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); // ✅ new
+  const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -47,16 +47,29 @@ const ProcurementPayments = () => {
 
   const handleCreate = (newEntry) => {
     const newId = Date.now().toString();
-    const createdEntry = { id: newId, ...newEntry };
+    const installments = parseInt(newEntry.installments);
+    const currentInstallment = parseInt(newEntry.currentInstallment); // ✅ อ่านค่าจากฟอร์ม
+    const isInstallment = newEntry.payment_method === "Installment";
+    const installmentAmount = isInstallment
+      ? parseFloat((newEntry.amount / installments).toFixed(2))
+      : null;
+  
+    const createdEntry = {
+      id: newId,
+      ...newEntry,
+      installments: isInstallment ? installments : null,
+      installmentAmount,
+      currentInstallment: isInstallment ? currentInstallment : null, // ✅ ใช้ค่าที่ผู้ใช้เลือก
+    };
+  
     setPaymentData((prev) => [...prev, createdEntry]);
     setShowForm(false);
   };
 
-  // ✅ รวมฟิลเตอร์และการค้นหา
   const filteredData = paymentData.filter((item) => {
     const matchStatus = filterStatus ? item.status === filterStatus : true;
     const matchSearch =
-      item.processed_by.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.processed_by?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.id.toLowerCase().includes(searchTerm.toLowerCase());
     return matchStatus && matchSearch;
   });
@@ -77,6 +90,7 @@ const ProcurementPayments = () => {
     { key: "payment_date", label: "วันที่ชำระเงิน" },
     { key: "payment_method", label: "วิธีการชำระ" },
     { key: "amount", label: "จำนวนเงิน" },
+    { key: "installment_display", label: "การผ่อนชำระ" }, // ✅ เพิ่มตรงนี้
     { key: "processed_by", label: "ผู้ดำเนินการ" },
     { key: "notes", label: "หมายเหตุ" },
     { key: "status", label: "สถานะ" },
@@ -85,7 +99,7 @@ const ProcurementPayments = () => {
   const formatDate = (dateStr) =>
     new Date(dateStr).toLocaleDateString("th-TH");
 
-  const renderCell = (key, value) => {
+  const renderCell = (key, value, row) => {
     if (key === "payment_date") return formatDate(value);
     if (key === "amount") return value.toFixed(2);
     if (key === "status") {
@@ -101,6 +115,17 @@ const ProcurementPayments = () => {
         </span>
       );
     }
+
+    if (key === "installment_display") {
+      if (row.payment_method === "Installment") {
+        return `${row.installmentAmount?.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} / ${row.installments} งวด (งวดที่ ${row.currentInstallment})`;
+      }
+      return "-";
+    }
+
     return value;
   };
 
@@ -109,30 +134,30 @@ const ProcurementPayments = () => {
       <h1 className="procurement-payments-title">Procurement Payments</h1>
 
       <div className="payment-toolbar">
-  <button
-    className="create-payment-button"
-    onClick={() => setShowForm(true)}
-  >
-    + สร้างข้อมูลใหม่
-  </button>
+        <button
+          className="create-payment-button"
+          onClick={() => setShowForm(true)}
+        >
+          + สร้างข้อมูลใหม่
+        </button>
 
-  <div className="filter-group">
-    <div className="search-input-wrapper">
-      <span className="search-icon">🔍</span>
-      <input
-        type="text"
-        className="payment-search-input"
-        placeholder="ค้นหา ID หรือผู้ดำเนินการ..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-    </div>
+        <div className="filter-group">
+          <div className="search-input-wrapper">
+            <span className="search-icon">🔍</span>
+            <input
+              type="text"
+              className="payment-search-input"
+              placeholder="ค้นหา ID หรือผู้ดำเนินการ..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
 
-    <PaymentFilter onStatusChange={setFilterStatus} />
-  </div>
-</div>
+          <PaymentFilter onStatusChange={setFilterStatus} />
+        </div>
+      </div>
 
-      <Modal show={showForm} onHide={() => setShowForm(false)} size="lg" centered>
+      <Modal show={showForm} onHide={() => setShowForm(false)} size="lg"  centered >
         <Modal.Header closeButton>
           <Modal.Title>สร้างข้อมูลใหม่</Modal.Title>
         </Modal.Header>
@@ -163,7 +188,7 @@ const ProcurementPayments = () => {
               </td>
               {headers.map((header) => (
                 <td key={header.key} className="procurement-payments-cell">
-                  {renderCell(header.key, payment[header.key])}
+                  {renderCell(header.key, payment[header.key], payment)}
                 </td>
               ))}
             </tr>

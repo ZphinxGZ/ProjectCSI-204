@@ -44,3 +44,7 @@
     font-weight: bold;
     cursor: pointer;
   }
+  .scrollable-select {/* ควบคุมความสูงของ dropdown */
+    overflow-y: auto;      /* ให้ scroll ได้ */
+  }
+ 
