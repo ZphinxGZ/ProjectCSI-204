@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import Select from "react-select"; 
 
 const CreatePaymentForm = ({ onCreate, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -7,30 +8,95 @@ const CreatePaymentForm = ({ onCreate, onCancel }) => {
     payment_date: "",
     payment_method: "Transfer",
     amount: "",
+    installments: 3,
+    currentInstallment: 1,
     notes: "",
     processed_by: "",
     status: "ชำระแล้ว",
   });
 
+  const getAllowedInstallments = (amount) => {
+    if (amount <= 10000) return [3];
+    if (amount <= 200000) return [3, 5, 10, 12, 18, 24];
+    return [3, 5, 10, 12, 24, 36, 48, 60, 72, 84];
+  };
+
+  const renderInstallmentOptions = () => {
+    const amt = parseFloat(formData.amount) || 0;
+    const options = getAllowedInstallments(amt);
+    return options.map((num) => (
+      <option key={num} value={num}>
+        {num} เดือน
+      </option>
+    ));
+  };
+
+  const currentInstallmentOptions = Array.from(
+    { length: Number(formData.installments) || 1 },
+    (_, i) => ({ value: i + 1, label: `งวดที่ ${i + 1}` })
+  );
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (
       !formData.reference_number ||
       !formData.payment_date ||
       !formData.amount ||
       !formData.processed_by
     ) {
-      alert("กรุณากรอกข้อมูลที่จำเป็นให้ครบ");
+      alert("กรุณากรอกข้อมูลที่จะเป็นให้ครบ");
       return;
     }
 
-    onCreate({ ...formData, amount: parseFloat(formData.amount) });
+    const amountValue = parseFloat(formData.amount);
+    const installments = parseInt(formData.installments);
+    const currentInstallment = parseInt(formData.currentInstallment);
+    const allowed = getAllowedInstallments(amountValue);
+
+    if (
+      formData.payment_method === "Installment" &&
+      !allowed.includes(installments)
+    ) {
+      alert(
+        `จำนวนเงิน ${amountValue.toLocaleString()} บาท เลือกงวดผ่อนได้เฉพาะ: ${allowed.join(", ")} เดือน`
+      );
+      return;
+    }
+
+    const installmentAmount = parseFloat(
+      (amountValue / installments).toFixed(2)
+    );
+
+    const dataToSubmit = {
+      ...formData,
+      amount: amountValue,
+      installments,
+      currentInstallment,
+      installmentAmount,
+    };
+
+    onCreate(dataToSubmit);
   };
+
+  const installmentAmount =
+    formData.payment_method === "Installment" && formData.amount && formData.installments
+      ? parseFloat(formData.amount) / parseInt(formData.installments)
+      : 0;
+
+  const remaining =
+    formData.payment_method === "Installment"
+      ? installmentAmount *
+        (parseInt(formData.installments) - parseInt(formData.currentInstallment) + 1)
+      : 0;
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -72,6 +138,7 @@ const CreatePaymentForm = ({ onCreate, onCancel }) => {
               <option value="Transfer">โอนเงิน</option>
               <option value="Cash">เงินสด</option>
               <option value="Cheque">เช็ค</option>
+              <option value="Installment">ผ่อนชำระ</option>
             </Form.Select>
           </Form.Group>
         </Col>
@@ -87,6 +154,68 @@ const CreatePaymentForm = ({ onCreate, onCancel }) => {
           </Form.Group>
         </Col>
       </Row>
+
+      {formData.payment_method === "Installment" && (
+        <Row className="mb-3">
+          <Col md={6}>
+            <Form.Group controlId="installments">
+              <Form.Label>จำนวนงวด (เดือน)</Form.Label>
+              <Form.Select
+                name="installments"
+                value={formData.installments}
+                onChange={handleChange}
+              >
+                {renderInstallmentOptions()}
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group controlId="currentInstallment" className="mt-3">
+              <Form.Label>งวดที่ชำระล่าสุด</Form.Label>
+              <Select 
+                options={currentInstallmentOptions}
+                value={currentInstallmentOptions.find(
+                  (opt) => opt.value === parseInt(formData.currentInstallment)
+                )}
+                onChange={(selected) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    currentInstallment: selected.value,
+                  }))
+                }
+                styles={{
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  menu: (provided) => ({
+                    ...provided,
+                    maxHeight: 300,
+                    overflowY: "auto",
+                  }),
+                }}
+              />
+            </Form.Group>
+          </Col>
+
+          <Col md={6}>
+            <div className="p-3 bg-light rounded border h-100">
+              <p className="mb-1">
+                💸 <strong>ยอดผ่อนงวดละ:</strong>{" "}
+                {installmentAmount.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                บาท
+              </p>
+              <p className="mb-0">
+                🧾 <strong>ยอดค้างชำระ (จากงวดที่ {formData.currentInstallment}):</strong>{" "}
+                {remaining.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                บาท
+              </p>
+            </div>
+          </Col>
+        </Row>
+      )}
 
       <Row className="mb-3">
         <Col md={6}>
@@ -123,7 +252,7 @@ const CreatePaymentForm = ({ onCreate, onCancel }) => {
           name="notes"
           value={formData.notes}
           onChange={handleChange}
-          placeholder="รายละเอียดเพิ่มเติม เช่น ใบแจ้งหนี้ / โครงการที่เกี่ยวข้อง"
+          placeholder="รายละเอียดเพิ่มเติม เช่น ใบแจ้งหนี้ / โครงการที่เกี่ยวข้อ"
         />
       </Form.Group>
 
