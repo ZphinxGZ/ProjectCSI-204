@@ -137,12 +137,12 @@
   }
   
   .pagination-controls button {
-    padding: 4px 10px;
+    padding: 5px 10px;
     background-color: #f8f9fa;
     border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 520;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     color: #333;
@@ -162,12 +162,12 @@
   }
   
   .pagination-controls .current-page {
-    padding: 4px 9px;
+    padding: 8px 12px;
     background-color: #007bff;
     color: white;
-    border-radius: 8px;
+    border-radius: 5px;
     border: 1px solid #007bff;
-    font-size: 13px;
+    font-size: 16px;
   }
   .payment-toolbar {
     display: flex;
