@@ -1,86 +1,88 @@
-/* Container styles */
 .user-roles {
-    padding: 1.5rem;
-    background-color: #1f2937; /* bg-gray-800 */
-    border-radius: 0.5rem; /* rounded-md */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
-  }
-  
-  .user-roles h2 {
-    font-size: 1.25rem; /* text-xl */
-    font-weight: 600; /* font-semibold */
-    color: #ffffff; /* text-white */
-    margin-bottom: 1rem;
-  }
-  
-  /* Table styles */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem; /* เพิ่มระยะห่าง */
-  }
-  
-  thead {
-    background-color: #374151; /* bg-gray-700 */
-    font-size: 0.875rem; /* text-sm */
-    color: #d1d5db; /* text-gray-300 */
-  }
-  
-  th,
-  td {
-    padding: 0.75rem 1rem; /* px-4 py-2 */
-    text-align: center;
-  }
-  
-  td {
-    color: #ffffff; /* text-white */
-  }
-  
-  tbody tr {
-    transition: background-color 0.3s ease;
-  }
-  
-  tbody tr:hover {
-    background-color: #374151; /* hover:bg-gray-700 */
-  }
-  
-  /* Checkbox styling */
-  input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: #2563eb; /* ใช้สีฟ้าสำหรับ checkbox */
-  }
-  
-  /* Confirm button container styles */
-  .button-container {
-    display: flex;
-    justify-content: flex-end; /* จัดปุ่มไปชิดขวา */
-    margin-top: 1rem; /* ระยะห่างจากตาราง */
-  }
-  
-  /* Confirm button styles */
-  .confirm-button {
-    padding: 0.75rem 1.5rem;
-    background-color: #2563eb; /* bg-blue-600 */
-    color: white;
-    font-size: 1rem; /* text-base */
-    font-weight: 600; /* font-semibold */
-    border: none;
-    border-radius: 0.375rem; /* rounded-md */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .confirm-button:hover {
-    background-color: #3b82f6; /* bg-blue-500 */
-  }
-  
-  .confirm-button.saved {
-    background-color: #10b981; /* bg-green-500 */
-    cursor: default; /* ไม่อนุญาตให้คลิกหลังบันทึก */
-  }
-  
-  .confirm-button.saved:hover {
-    background-color: #10b981; /* คงสีเขียวไว้ */
-  }
-  
+  padding: 20px;
+  background-color: #ffffff; /* เปลี่ยนพื้นหลังเป็นสีขาวเพื่อความสอดคล้อง */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเบาๆ */
+  margin-top: 20px;
+}
+
+.user-roles h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333; /* เปลี่ยนเป็นสีเทาเข้ม */
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* เพิ่มเงาให้ตาราง */
+}
+
+thead {
+  background-color: #f8f9fa; /* เปลี่ยนเป็นสีเทาอ่อน */
+  font-size: 0.875rem;
+  color: #333; /* เปลี่ยนเป็นสีเทาเข้ม */
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+}
+
+td {
+  color: #333; /* เปลี่ยนสีข้อความในตารางเป็นสีเทาเข้ม */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fcfcfc; /* สีแถวคี่เป็นสีขาวโปร่ง */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #ffffff; /* สีแถวคู่เป็นสีขาว */
+}
+
+tbody tr:hover {
+  background-color: #e2e6ea; /* สีพื้นหลังเมื่อ hover เป็นเทาอ่อน */
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #007bff; /* เปลี่ยนสี checkbox เป็นฟ้าหลัก */
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.confirm-button {
+  padding: 12px 20px;
+  background-color: #007bff; /* ใช้สีฟ้าหลัก */
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3; /* สีฟ้าเข้มเมื่อ hover */
+}
+
+.confirm-button.saved {
+  background-color: #28a745; /* สีเขียวสำหรับสถานะ saved */
+  cursor: default;
+}
+
+.confirm-button.saved:hover {
+  background-color: #28a745; /* ไม่มีการเปลี่ยนแปลงเมื่อ hover */
+}

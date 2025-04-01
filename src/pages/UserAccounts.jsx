@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/userAccounts.css"; 
+import "../styles/userAccounts.css";
 
 const UserAccounts = () => {
   const [users, setUsers] = useState([
@@ -7,7 +7,7 @@ const UserAccounts = () => {
     { id: 2, name: "Jane Smith", role: "Procurement" },
   ]);
 
-  const [isFormOpen, setIsFormOpen] = useState(false); 
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [newAccount, setNewAccount] = useState({
     username: "",
     password: "",
@@ -17,7 +17,7 @@ const UserAccounts = () => {
   });
 
   const toggleForm = () => {
-    setIsFormOpen(!isFormOpen); 
+    setIsFormOpen(!isFormOpen);
   };
 
   const handleInputChange = (e) => {
@@ -37,7 +37,7 @@ const UserAccounts = () => {
       fullname: "",
       role: "Procurement",
     });
-    setIsFormOpen(false); 
+    setIsFormOpen(false);
   };
 
   return (
@@ -123,10 +123,10 @@ const UserAccounts = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.name}</td>
-              <td>{user.role}</td>
+            <tr key={user.id} className="no-hover">
+              <td className="id-cell">{user.id}</td> {/* เพิ่มคลาสสำหรับ ID */}
+              <td className="id-cell">{user.name}</td>
+              <td className="id-cell">{user.role}</td>
               <td className="button-group">
                 <button
                   className="action-button reset"
