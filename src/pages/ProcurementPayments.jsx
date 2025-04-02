@@ -13,7 +13,10 @@ const ProcurementPayments = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const [totalBudget, setTotalBudget] = useState(50000);
+  const [totalBudget, setTotalBudget] = useState(() => {
+    const saved = localStorage.getItem("budget");
+    return saved ? parseFloat(saved) : 500000;
+  });
   const [showBudget, setShowBudget] = useState(false);
 
   const [paymentData, setPaymentData] = useState([
@@ -174,14 +177,14 @@ const ProcurementPayments = () => {
         </div>
       </div>
       {showBudget && (
-  <Budgets
-    show={showBudget}
-    onClose={() => setShowBudget(false)}
-    paymentData={paymentData}
-    totalBudget={totalBudget}
-    setTotalBudget={setTotalBudget}
-  />
-)}
+        <Budgets
+          show={showBudget}
+          onClose={() => setShowBudget(false)}
+          paymentData={paymentData}
+          totalBudget={totalBudget}
+          setTotalBudget={setTotalBudget}
+        />
+      )}
 
       <Modal show={showForm} onHide={() => setShowForm(false)} size="lg" centered>
         <Modal.Header closeButton>

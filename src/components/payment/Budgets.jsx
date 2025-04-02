@@ -1,10 +1,20 @@
-// ✅ Budgets.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import "./Budgets.css";
+
 const Budgets = ({ show, paymentData, totalBudget, setTotalBudget }) => {
   const [tempBudget, setTempBudget] = useState(totalBudget);
   const [showEditModal, setShowEditModal] = useState(false);
+
+  // โหลดงบที่เคยบันทึกไว้ (แค่ตอนเปิด component)
+  useEffect(() => {
+    const saved = localStorage.getItem("budget");
+    if (saved) {
+      const parsed = parseFloat(saved);
+      setTempBudget(parsed);
+      setTotalBudget(parsed);
+    }
+  }, [setTotalBudget]);
 
   const totalPaid = paymentData.reduce(
     (sum, p) => sum + (p.status === "ชำระแล้ว" ? p.amount : 0),
@@ -14,8 +24,9 @@ const Budgets = ({ show, paymentData, totalBudget, setTotalBudget }) => {
 
   const handleConfirm = () => {
     setTotalBudget(tempBudget);
+    localStorage.setItem("budget", tempBudget); // ✅ บันทึกใน localStorage
     setShowEditModal(false);
-  };       
+  };
 
   if (!show) return null;
 
@@ -25,7 +36,13 @@ const Budgets = ({ show, paymentData, totalBudget, setTotalBudget }) => {
         <p>
           งบประมาณทั้งหมด: <strong>{totalBudget.toLocaleString()} บาท</strong>
           &nbsp;&nbsp; ยอดที่ชำระแล้ว: <strong>{totalPaid.toLocaleString()} บาท</strong>
-          &nbsp;&nbsp; ยอดคงเหลือ: <strong><label className="remaining-budget">{remainingBudget.toLocaleString()} </label>&nbsp;บาท</strong>
+          &nbsp;&nbsp; ยอดคงเหลือ:{" "}
+          <strong>
+            <label className="remaining-budget">
+              {remainingBudget.toLocaleString()}
+            </label>{" "}
+            บาท
+          </strong>
           <button
             className="btn btn-sm btn-warning ms-3"
             onClick={() => {
