@@ -25,7 +25,7 @@ const Budgets = ({ show, paymentData, totalBudget, setTotalBudget }) => {
         <p>
           งบประมาณทั้งหมด: <strong>{totalBudget.toLocaleString()} บาท</strong>
           &nbsp;&nbsp; ยอดที่ชำระแล้ว: <strong>{totalPaid.toLocaleString()} บาท</strong>
-          &nbsp;&nbsp; ยอดคงเหลือ: <strong>{remainingBudget.toLocaleString()} บาท</strong>
+          &nbsp;&nbsp; ยอดคงเหลือ: <strong><label className="remaining-budget">{remainingBudget.toLocaleString()} </label>&nbsp;บาท</strong>
           <button
             className="btn btn-sm btn-warning ms-3"
             onClick={() => {

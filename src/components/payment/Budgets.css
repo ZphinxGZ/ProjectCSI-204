@@ -13,5 +13,10 @@
   margin: auto;
   margin-bottom: 10px;
 }
-
+.remaining-budget{
+  background-color: #a3dbf4;
+  border-radius: 5px;
+  padding: 6px;
+  
+}
 
