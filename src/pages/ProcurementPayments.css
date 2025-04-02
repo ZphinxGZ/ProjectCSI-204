@@ -203,11 +203,20 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    width: 180px;
+    width: 200px;
     transition: border-color 0.3s ease;
   }
   
   .payment-search-input:focus {
     outline: none;
     border-color: #007bff;
+  }
+  .budget-toggle-button{
+    margin-right: auto;
+    padding: 11px 16px;
+    background-color: #4b89e7;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
   }

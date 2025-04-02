@@ -4,6 +4,7 @@ import CreatePaymentForm from "../components/payment/CreatePaymentForm";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProcurementPayments.css";
+import Budgets from "../components/payment/Budgets";
 
 const ProcurementPayments = () => {
   const [filterStatus, setFilterStatus] = useState("");
@@ -11,6 +12,9 @@ const ProcurementPayments = () => {
   const [showForm, setShowForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  const [totalBudget, setTotalBudget] = useState(50000);
+  const [showBudget, setShowBudget] = useState(false);
 
   const [paymentData, setPaymentData] = useState([
     {
@@ -48,20 +52,20 @@ const ProcurementPayments = () => {
   const handleCreate = (newEntry) => {
     const newId = Date.now().toString();
     const installments = parseInt(newEntry.installments);
-    const currentInstallment = parseInt(newEntry.currentInstallment); // ✅ อ่านค่าจากฟอร์ม
+    const currentInstallment = parseInt(newEntry.currentInstallment);
     const isInstallment = newEntry.payment_method === "Installment";
     const installmentAmount = isInstallment
       ? parseFloat((newEntry.amount / installments).toFixed(2))
       : null;
-  
+
     const createdEntry = {
       id: newId,
       ...newEntry,
       installments: isInstallment ? installments : null,
       installmentAmount,
-      currentInstallment: isInstallment ? currentInstallment : null, // ✅ ใช้ค่าที่ผู้ใช้เลือก
+      currentInstallment: isInstallment ? currentInstallment : null,
     };
-  
+
     setPaymentData((prev) => [...prev, createdEntry]);
     setShowForm(false);
   };
@@ -85,12 +89,18 @@ const ProcurementPayments = () => {
     setCurrentPage(page);
   };
 
+  const totalPaid = paymentData.reduce(
+    (sum, p) => sum + (p.status === "ชำระแล้ว" ? p.amount : 0),
+    0
+  );
+  const remainingBudget = totalBudget - totalPaid;
+
   const headers = [
     { key: "reference_number", label: "ใบชำระ" },
     { key: "payment_date", label: "วันที่ชำระเงิน" },
     { key: "payment_method", label: "วิธีการชำระ" },
     { key: "amount", label: "จำนวนเงิน" },
-    { key: "installment_display", label: "การผ่อนชำระ" }, // ✅ เพิ่มตรงนี้
+    { key: "installment_display", label: "การผ่อนชำระ" },
     { key: "processed_by", label: "ผู้ดำเนินการ" },
     { key: "notes", label: "หมายเหตุ" },
     { key: "status", label: "สถานะ" },
@@ -141,6 +151,13 @@ const ProcurementPayments = () => {
           + สร้างข้อมูลใหม่
         </button>
 
+        <button
+          className="budget-toggle-button"
+          onClick={() => setShowBudget(prev => !prev)}
+        >
+          📊 งบประมาณ
+        </button>
+
         <div className="filter-group">
           <div className="search-input-wrapper">
             <span className="search-icon">🔍</span>
@@ -156,8 +173,17 @@ const ProcurementPayments = () => {
           <PaymentFilter onStatusChange={setFilterStatus} />
         </div>
       </div>
+      {showBudget && (
+  <Budgets
+    show={showBudget}
+    onClose={() => setShowBudget(false)}
+    paymentData={paymentData}
+    totalBudget={totalBudget}
+    setTotalBudget={setTotalBudget}
+  />
+)}
 
-      <Modal show={showForm} onHide={() => setShowForm(false)} size="lg"  centered >
+      <Modal show={showForm} onHide={() => setShowForm(false)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>สร้างข้อมูลใหม่</Modal.Title>
         </Modal.Header>

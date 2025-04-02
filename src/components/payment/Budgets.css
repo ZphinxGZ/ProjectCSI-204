@@ -1,0 +1,17 @@
+.budget-summary {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  border: 1px solid #a3dbf4;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #e0f9ff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+.budget-new{
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+
