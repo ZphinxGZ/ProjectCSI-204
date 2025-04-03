@@ -13,13 +13,13 @@ const ProcurementOrders = () => {
   const navigate = useNavigate(); 
   // ใช้ useNavigate hook สำหรับการนำทาง
 
-  const receiptDetailsList = [ 
+  const [receiptDetailsList, setReceiptDetailsList] = useState([ 
     // กำหนดข้อมูลตัวอย่าง (mock data) สำหรับรายการใบสั่งซื้อ
     { id: 1, poNumber: "PO-20250003", supplier: "ตาล", items: ["ssss x1", "ssss x111"], prNumber: "PR-20250002", peNumber: "PE-20250002", pendingPayment: 0.0, paid: 5555.0, total: 5555.0, dueDate: "31/03/2025", status: "เสร็จสมบูรณ์" },
     { id: 2, poNumber: "PO-20250002", supplier: "อู๋", items: ["test x1", "test x2"], prNumber: "PR-20250001", peNumber: "-", pendingPayment: 0.0, paid: 0.0, total: 154.0, dueDate: "31/03/2025", status: "ไม่อนุมัติ 'สั่งซื้อ'" },
     { id: 3, poNumber: "PO-20250001", supplier: "เจ้น", items: ["pen x100", "pencil x50"], prNumber: "-", peNumber: "PE-20250001", pendingPayment: 0.0, paid: 1250.0, total: 1250.0, dueDate: "31/03/2025", status: "เสร็จสมบูรณ์" },
     // ...ข้อมูลตัวอย่างอื่นๆ...
-  ];
+  ]);
 
   const headers = [ 
     // กำหนดหัวตาราง (headers) สำหรับการแสดงผลในตาราง
@@ -49,6 +49,10 @@ const ProcurementOrders = () => {
     console.log(`Navigating to OrderDetails with poNumber: ${poNumber}`); // Debug log
     navigate(`/order-details`); 
     // Navigate to the OrderDetails page with the poNumber as a parameter
+  };
+
+  const handleAddOrder = (newOrder) => {
+    setReceiptDetailsList((prevList) => [...prevList, newOrder]);
   };
 
   const handleAddOrderClick = () => {
@@ -195,7 +199,7 @@ const ProcurementOrders = () => {
 
   return ( 
     // ส่วนที่เรนเดอร์ UI ของ component
-    <div className="procurement-orders">
+    <div className="procurement-orders" id="procurement-orders">
       <h1 className="procurement-orders-title">Procurement Orders</h1> 
       {/* แสดงหัวข้อของหน้า */}
       <button 
