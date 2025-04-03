@@ -19,8 +19,8 @@ createRoot(document.getElementById("root")).render(
     <Router>
       <App> {/* Wrap Routes with App */}
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Navigate />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/procurement/orders" element={<ProcurementOrders />} />
           <Route path="/order-details" element={<OrderDetails />} />
           <Route path="/procurement/payments" element={<ProcurementPayments />} />
