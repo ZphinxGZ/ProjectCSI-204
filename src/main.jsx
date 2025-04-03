@@ -7,7 +7,7 @@ import "./index.css";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Router>
-      <App /> {/* App จะจัดการ routing ทั้งหมด */}
+      <App /> 
     </Router>
   </StrictMode>
 );
