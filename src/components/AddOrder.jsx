@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AddOrder.css";
 
-const AddOrder = () => {
+const AddOrder = ({ onAddOrder }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     poNumber: "",
@@ -22,12 +22,31 @@ const AddOrder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Order submitted:", formData);
-    navigate("/procurement-orders");
+    console.log("Submitting form with data:", formData); // Debugging log
+
+    if (!onAddOrder) {
+      console.error("onAddOrder function is not provided!");
+      return;
+    }
+
+    const newOrder = {
+      ...formData,
+      id: Date.now(),
+      items: formData.items.split(",").map((item) => item.trim()),
+      total: parseFloat(formData.total),
+    };
+
+    try {
+      onAddOrder(newOrder);
+      console.log("Order added successfully:", newOrder); // Debugging log
+      navigate("/ProcurementOrders"); // Updated navigation path
+    } catch (error) {
+      console.error("Error while adding order:", error); // Error handling
+    }
   };
 
   return (
-    <div className="add-order">
+    <div className="add-order" id="add-order">
       <h1 className="add-order-title">Add New Order</h1>
       <form className="add-order-form" onSubmit={handleSubmit}>
         <label>

@@ -1,237 +1,204 @@
-import React, { useState } from "react"; 
-import { useNavigate } from "react-router-dom"; 
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Modal, Button, Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import "./ProcurementOrders.css"; 
-// นำเข้าไฟล์ CSS สำหรับจัดการสไตล์ของหน้า ProcurementOrders
-
-import OrderDetails from "../components/OrderDetails"; 
-// นำเข้า component OrderDetails จากโฟลเดอร์ components
-
-const ProcurementOrders = () => { 
-  // สร้างฟังก์ชัน component ชื่อ ProcurementOrders
-
-  const navigate = useNavigate(); 
-  // ใช้ useNavigate hook สำหรับการนำทาง
-
-  const receiptDetailsList = [ 
-    // กำหนดข้อมูลตัวอย่าง (mock data) สำหรับรายการใบสั่งซื้อ
-    { id: 1, poNumber: "PO-20250003", supplier: "ตาล", items: ["ssss x1", "ssss x111"], prNumber: "PR-20250002", peNumber: "PE-20250002", pendingPayment: 0.0, paid: 5555.0, total: 5555.0, dueDate: "31/03/2025", status: "เสร็จสมบูรณ์" },
-    { id: 2, poNumber: "PO-20250002", supplier: "อู๋", items: ["test x1", "test x2"], prNumber: "PR-20250001", peNumber: "-", pendingPayment: 0.0, paid: 0.0, total: 154.0, dueDate: "31/03/2025", status: "ไม่อนุมัติ 'สั่งซื้อ'" },
-    { id: 3, poNumber: "PO-20250001", supplier: "เจ้น", items: ["pen x100", "pencil x50"], prNumber: "-", peNumber: "PE-20250001", pendingPayment: 0.0, paid: 1250.0, total: 1250.0, dueDate: "31/03/2025", status: "เสร็จสมบูรณ์" },
-    // ...ข้อมูลตัวอย่างอื่นๆ...
-  ];
-
-  const headers = [ 
-    // กำหนดหัวตาราง (headers) สำหรับการแสดงผลในตาราง
-    { key: "poNumber", label: "ใบสั่งซื้อ" },
-    { key: "supplier", label: "ผู้ขาย" },
-    { key: "items", label: "รายการสินค้า" },
-    { key: "prNumber", label: "ใบขอซื้อ" },
-    { key: "peNumber", label: "ใบชำระเงิน" },
-    { key: "pendingPayment", label: "ค้างชำระ" },
-    { key: "paid", label: "ชำระแล้ว" },
-    { key: "total", label: "รวมเป็นเงินทั้งหมด" },
-    { key: "dueDate", label: "ครบกำหนด" },
-    { key: "status", label: "สถานะ" },
-    // ...หัวข้ออื่นๆ...
-  ];
-
+const ProcurementOrders = () => {
+  const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [newOrder, setNewOrder] = useState({
+    poNumber: "",
+    supplier: "",
+    status: "รอดำเนินการ",
+    quantity: "",
+    unit: "",
+    description: "",
+    receivedDate: "",
+    referenceNumber: ""
+  });
   const itemsPerPage = 5;
 
-  const totalPages = Math.ceil(receiptDetailsList.length / itemsPerPage);
-  const paginatedData = receiptDetailsList.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  useEffect(() => {
+    const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    const filteredOrders = storedOrders.filter(order => 
+      !(
+        (order.poNumber === "กไฟก" && order.supplier === "กไฟ") ||
+        (order.poNumber === "12312313" && order.supplier === "fix") ||
+        (order.poNumber === "132313" && order.supplier === "dwdda")
+      )
+    );
+    setOrders(filteredOrders);
+  }, []);
+
+  const saveOrders = (newOrders) => {
+    localStorage.setItem("orders", JSON.stringify(newOrders));
+    setOrders(newOrders);
+  };
+
+  const handleAddOrder = () => {
+    const updatedOrders = [...orders, { ...newOrder, id: orders.length + 1 }];
+    saveOrders(updatedOrders);
+    setShowModal(false);
+    setNewOrder({
+      poNumber: "",
+      supplier: "",
+      status: "รอดำเนินการ",
+      quantity: "",
+      unit: "",
+      description: "",
+      receivedDate: "",
+      referenceNumber: ""
+    });
+  };
+
+  const filteredOrders = orders.filter(order =>
+    (order.poNumber.includes(searchTerm) || order.supplier.includes(searchTerm)) &&
+    (filterStatus === "" || order.status === filterStatus)
   );
 
-  const handlePoNumberClick = (poNumber) => {
-    console.log(`Navigating to OrderDetails with poNumber: ${poNumber}`); // Debug log
-    navigate(`/order-details`); 
-    // Navigate to the OrderDetails page with the poNumber as a parameter
-  };
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const paginatedOrders = filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const handleAddOrderClick = () => {
-    navigate("/add-order");
-  };
-
-  const renderCell = (key, value) => { 
-    // ฟังก์ชันสำหรับเรนเดอร์ค่าของแต่ละเซลล์ในตาราง
-    if (key === "items") { 
-      // ถ้าคีย์เป็น "items" ให้แสดงรายการสินค้าในรูปแบบ tag
-      return value.map((item, index) => (
-        <div key={index} className="procurement-orders-item-tag">{item}</div>
-      ));
-    }
-    if (key === "prNumber" || key === "peNumber") { 
-      // ถ้าคีย์เป็น "prNumber" หรือ "peNumber" ให้แสดงจุดสีเขียวหรือแดงตามเงื่อนไข
-      return value.includes("PR") || value.includes("PE") ? (
-        <span className="procurement-orders-green-dot">{value}</span>
-      ) : (
-        <span className="procurement-orders-red-dot">{value}</span>
-      );
-    }
-    if (key === "status") { 
-      // ถ้าคีย์เป็น "status" ให้แสดงสถานะพร้อมสไตล์ที่เหมาะสม
-      return (
-        <span
-          className={
-            value.includes("ไม่อนุมัติ")
-              ? "procurement-orders-status-rejected"
-              : "procurement-orders-status-completed"
-          }
-        >
-          {value}
-        </span>
-      );
-    }
-    if (key === "poNumber") {
-      return (
-        <button
-          className="procurement-orders-po-button"
-          onClick={() => handlePoNumberClick(value)}
-        >
-          {value}
-        </button>
-      );
-    }
-    if (typeof value === "number") { 
-      // ถ้าค่าเป็นตัวเลข ให้แสดงผลในรูปแบบทศนิยม 2 ตำแหน่ง
-      return value.toFixed(2);
-    }
-    return value; 
-    // คืนค่าปกติสำหรับกรณีอื่นๆ
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const renderPagination = () => {
-    const paginationButtons = [];
-    const totalPages = Math.ceil(receiptDetailsList.length / itemsPerPage);
-  
-    if (totalPages <= 7) {
-      for (let i = 1; i <= totalPages; i++) {
-        paginationButtons.push(
-          <button
-            key={i}
-            className={`pagination-button ${currentPage === i ? "active" : ""}`}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </button>
-        );
-      }
-    } else {
-      if (currentPage > 3) {
-        paginationButtons.push(
-          <button
-            key={1}
-            className="pagination-button"
-            onClick={() => handlePageChange(1)}
-          >
-            1
-          </button>
-        );
-        if (currentPage > 4) {
-          paginationButtons.push(<span key="start-ellipsis">...</span>);
-        }
-      }
-  
-      const startPage = Math.max(2, currentPage - 2);
-      const endPage = Math.min(totalPages - 1, currentPage + 2);
-  
-      for (let i = startPage; i <= endPage; i++) {
-        paginationButtons.push(
-          <button
-            key={i}
-            className={`pagination-button ${currentPage === i ? "active" : ""}`}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </button>
-        );
-      }
-  
-      if (currentPage < totalPages - 3) {
-        if (currentPage < totalPages - 4) {
-          paginationButtons.push(<span key="end-ellipsis">...</span>);
-        }
-        paginationButtons.push(
-          <button
-            key={totalPages}
-            className="pagination-button"
-            onClick={() => handlePageChange(totalPages)}
-          >
-            {totalPages}
-          </button>
-        );
-      }
-    }
-  
-    return (
-      <div className="pagination">
-        {currentPage > 1 && (
-          <button
-            className="pagination-button"
-            onClick={() => handlePageChange(currentPage - 1)}
-          >
-            &lt;
-          </button>
-        )}
-        {paginationButtons}
-        {currentPage < totalPages && (
-          <button
-            className="pagination-button"
-            onClick={() => handlePageChange(currentPage + 1)}
-          >
-            &gt;
-          </button>
-        )}
-      </div>
-    );
-  };
-
-  return ( 
-    // ส่วนที่เรนเดอร์ UI ของ component
+  return (
     <div className="procurement-orders">
-      <h1 className="procurement-orders-title">Procurement Orders</h1> 
-      {/* แสดงหัวข้อของหน้า */}
-      <button 
-        className="procurement-orders-add-button" 
-        onClick={handleAddOrderClick}
-      >
-        เพิ่ม Order
-      </button>
-      {/* Add button for adding a new order */}
-      <table className="procurement-orders-table"> 
-        {/* สร้างตาราง */}
+      <h1 className="procurement-orders-title">Procurement Orders</h1>
+
+      <div className="payment-toolbar">
+        <div className="filter-group">
+          <div className="search-input-wrapper">
+            <span className="search-icon">🔍</span>
+            <input
+              type="text"
+              className="payment-search-input"
+              placeholder="ค้นหา PO หรือ ผู้ขาย"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <select
+            className="payment-filter-select"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">ทั้งหมด</option>
+            <option value="เสร็จสมบูรณ์">เสร็จสมบูรณ์</option>
+            <option value="รอดำเนินการ">รอดำเนินการ</option>
+          </select>
+        </div>
+      </div>
+
+      <table className="procurement-payments-table">
         <thead>
-          <tr className="procurement-orders-header-row">
-            {headers.map((header) => (
-              <th key={header.key} className="procurement-orders-header">{header.label}</th>
-            ))}
-            {/* เรนเดอร์หัวตาราง */}
+          <tr className="procurement-payments-header-row">
+            <th className="procurement-payments-header">ลำดับ</th>
+            <th className="procurement-payments-header">ใบสั่งซื้อ</th>
+            <th className="procurement-payments-header">ผู้ขาย</th>
+            <th className="procurement-payments-header">สถานะ</th>
+            <th className="procurement-payments-header">ปริมาณการรับ</th>
+            <th className="procurement-payments-header">หน่วยนับ</th>
+            <th className="procurement-payments-header">คำอธิบาย</th>
+            <th className="procurement-payments-header">วันที่รับ</th>
+            <th className="procurement-payments-header">อ้างอิงหมายเลขใบสั่งซื้อ</th>
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((receipt) => (
-            <tr key={receipt.id} className="procurement-orders-row">
-              {headers.map((header) => (
-                <td key={header.key} className="procurement-orders-cell">
-                  {renderCell(header.key, receipt[header.key])}
-                </td>
-              ))}
-              {/* เรนเดอร์ข้อมูลในแต่ละแถว */}
+          {paginatedOrders.map((order, index) => (
+            <tr key={order.id} className="procurement-payments-row">
+              <td className="procurement-payments-cell">
+                {(currentPage - 1) * itemsPerPage + index + 1}
+              </td>
+              <td className="procurement-payments-cell">
+                <button
+                  className="link-button"
+                  onClick={() => navigate(`/order-details/${order.poNumber}`)}
+                >
+                  {order.poNumber}
+                </button>
+              </td>
+              <td className="procurement-payments-cell">{order.supplier}</td>
+              <td className="procurement-payments-cell">{order.status}</td>
+              <td className="procurement-payments-cell">{order.quantity}</td>
+              <td className="procurement-payments-cell">{order.unit}</td>
+              <td className="procurement-payments-cell">{order.description}</td>
+              <td className="procurement-payments-cell">{order.receivedDate}</td>
+              <td className="procurement-payments-cell">{order.referenceNumber}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      {renderPagination()}
+
+      <div className="pagination-controls">
+        <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+          &laquo;
+        </button>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          &lt;
+        </button>
+        <span className="current-page">{currentPage}</span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          &gt;
+        </button>
+        <button
+          onClick={() => setCurrentPage(totalPages)}
+          disabled={currentPage === totalPages}
+        >
+          &raquo;
+        </button>
+      </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>เพิ่มใบสั่งซื้อ</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>หมายเลข PO</Form.Label>
+              <Form.Control type="text" value={newOrder.poNumber} onChange={(e) => setNewOrder({ ...newOrder, poNumber: e.target.value })} />
+            </Form.Group>
+            <Form.Group className="mt-2">
+              <Form.Label>ผู้ขาย</Form.Label>
+              <Form.Control type="text" value={newOrder.supplier} onChange={(e) => setNewOrder({ ...newOrder, supplier: e.target.value })} />
+            </Form.Group>
+            <Form.Group className="mt-2">
+              <Form.Label>ปริมาณการรับ</Form.Label>
+              <Form.Control type="number" value={newOrder.quantity} onChange={(e) => setNewOrder({ ...newOrder, quantity: e.target.value })} />
+            </Form.Group>
+            <Form.Group className="mt-2">
+              <Form.Label>หน่วยนับ</Form.Label>
+              <Form.Control type="text" value={newOrder.unit} onChange={(e) => setNewOrder({ ...newOrder, unit: e.target.value })} />
+            </Form.Group>
+            <Form.Group className="mt-2">
+              <Form.Label>คำอธิบาย</Form.Label>
+              <Form.Control type="text" value={newOrder.description} onChange={(e) => setNewOrder({ ...newOrder, description: e.target.value })} />
+            </Form.Group>
+            <Form.Group className="mt-2">
+              <Form.Label>วันที่รับ</Form.Label>
+              <Form.Control type="date" value={newOrder.receivedDate} onChange={(e) => setNewOrder({ ...newOrder, receivedDate: e.target.value })} />
+            </Form.Group>
+            <Form.Group className="mt-2">
+              <Form.Label>อ้างอิงหมายเลขใบสั่งซื้อ</Form.Label>
+              <Form.Control type="text" value={newOrder.referenceNumber} onChange={(e) => setNewOrder({ ...newOrder, referenceNumber: e.target.value })} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>ยกเลิก</Button>
+          <Button variant="primary" onClick={handleAddOrder}>เพิ่ม</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
 
-export default ProcurementOrders; 
-// ส่งออก component ProcurementOrders
+export default ProcurementOrders;
