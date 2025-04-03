@@ -10,8 +10,17 @@ import AddPR from "./components/AddPR";
 import Login from "./pages/Login";
 import { useEffect } from "react";
 import Dashboard from "./pages/Dashboard/Dashboard"; // Import the Dashboard component
+import ProcurementOrders from "./pages/ProcurementOrders";
+import OrderDetails from "./components/OrderDetails";
+import ProcurementPayments from "./pages/ProcurementPayments";
+import ProcurementWarehouse from "./pages/ProcurementWarehouse";
+import ProcurementPR from "./pages/ProcurementPR";
+import UserAccounts from "./pages/UserAccounts";
+import UserRoles from "./pages/UserRoles";
+import UserAudit from "./pages/UserAudit";
+import UserSecurity from "./pages/UserSecurity";
 
-export default function App({ children }) {
+export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -74,12 +83,20 @@ export default function App({ children }) {
       <main className={location.pathname !== "/" ? "pt-16" : ""}>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} /> {/* Set Dashboard as home */}
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-order" element={<AddOrder />} />
           <Route path="/pr-details/:prNumber" element={<PRDetails />} />
           <Route path="/add-pr" element={<AddPR />} />
+          <Route path="/procurement/orders" element={<ProcurementOrders />} />
+          <Route path="/order-details" element={<OrderDetails />} />
+          <Route path="/procurement/payments" element={<ProcurementPayments />} />
+          <Route path="/procurement/warehouse" element={<ProcurementWarehouse />} />
+          <Route path="/procurement/pr" element={<ProcurementPR />} />
+          <Route path="/user-management/accounts" element={<UserAccounts />} />
+          <Route path="/user-management/roles" element={<UserRoles />} />
+          <Route path="/user-management/audit" element={<UserAudit />} />
+          <Route path="/user-management/security" element={<UserSecurity />} />
         </Routes>
-        {children}
       </main>
     </div>
   );
