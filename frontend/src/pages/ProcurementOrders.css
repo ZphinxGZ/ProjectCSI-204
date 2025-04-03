@@ -1,0 +1,274 @@
+/* ตั้งค่าพื้นหลังสีขาว และจัดระยะห่าง */
+.procurement-orders {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* จัดสไตล์หัวข้อ */
+  .procurement-orders-title {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* ตั้งค่าตาราง */
+  .procurement-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* สไตล์หัวตาราง */
+  .procurement-orders-header {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+  }
+  
+  /* สไตล์แต่ละแถว */
+  .procurement-orders-cell {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    color: #555;
+  }
+  
+  /* จัดกล่องข้อความสำหรับรายการสินค้า */
+  .procurement-orders-item-tag {
+    display: inline-block;
+    background-color: #f1f1f1;
+    padding: 6px 12px;
+    margin: 4px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  /* สถานะสีเขียว */
+  .procurement-orders-status-completed {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  /* สถานะสีแดง */
+  .procurement-orders-status-rejected {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  /* จุดสีสำหรับ PR / PE */
+  .procurement-orders-green-dot {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .procurement-orders-red-dot {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  /* แถวสลับสี */
+  .procurement-orders-row:nth-child(odd) {
+    background-color: #fcfcfc;
+  }
+  
+  /* Hover Effect */
+  .procurement-orders-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* ปรับปุ่มให้ดูสวยขึ้น */
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .procurement-orders-add-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 20px;
+  }
+
+  .procurement-orders-add-button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+
+  .procurement-orders-add-button:active {
+    background-color: #1e7e34;
+    transform: scale(1);
+  }
+
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .pagination-button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination-button:hover {
+    background-color: #e2e6ea;
+  }
+  
+  .pagination-button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+
+  .payment-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  .create-payment-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+
+  .create-payment-button:hover {
+    background-color: #157347;
+  }
+
+  .payment-search-input {
+    padding: 6px 10px 6px 30px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 200px;
+    transition: border-color 0.3s ease;
+  }
+
+  .payment-search-input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .payment-filter-select {
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .procurement-payments-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .procurement-payments-header {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+  }
+
+  .procurement-payments-cell {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    color: #555;
+  }
+
+  .procurement-payments-row:nth-child(odd) {
+    background-color: #fcfcfc;
+  }
+
+  .procurement-payments-row:hover {
+    background-color: #f1f1f1;
+  }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .pagination-controls button {
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 520;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: #333;
+    min-width: 40px;
+  }
+
+  .pagination-controls button:hover:not(:disabled) {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+
+  .pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #e9ecef;
+  }
+
+  .pagination-controls .current-page {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    font-size: 16px;
+  }
