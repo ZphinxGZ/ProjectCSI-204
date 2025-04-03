@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import AddStockForm from "../components/AddStockForm";
+import { Modal } from "react-bootstrap"; // Import Modal from react-bootstrap
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "./ProcurementWarehouse.css";
 
 const ProcurementWarehouse = () => {
@@ -201,16 +203,17 @@ const ProcurementWarehouse = () => {
       >
         เพิ่มสินค้า
       </button>
-      {showAddModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <AddStockForm
-              onAddStock={handleAddStock}
-              onCancel={() => setShowAddModal(false)}
-            />
-          </div>
-        </div>
-      )}
+      <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>เพิ่มสินค้าใหม่</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <AddStockForm
+            onAddStock={handleAddStock}
+            onCancel={() => setShowAddModal(false)}
+          />
+        </Modal.Body>
+      </Modal>
       <table className="procurement-orders-table">
         <thead>
           <tr className="procurement-orders-header-row">
