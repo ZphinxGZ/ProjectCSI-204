@@ -6,45 +6,33 @@
   background-color: #f9f9f9;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
-  gap: 20px; /* Space between rows and columns */
-}
-
-.form-grid label {
-  display: flex;
-  flex-direction: column;
+.add-stock-form label {
+  display: block;
+  margin-bottom: 10px;
 }
 
 .add-stock-form input {
   width: 100%;
   padding: 8px;
-  margin-top: 5px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.form-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.form-buttons button {
+.add-stock-form button {
+  margin-right: 10px;
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.form-buttons button:first-of-type {
+.add-stock-form button:first-of-type {
   background-color: #4CAF50;
   color: white;
 }
 
-.form-buttons button:last-of-type {
+.add-stock-form button:last-of-type {
   background-color: #f44336;
   color: white;
 }

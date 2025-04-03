@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import AddStockForm from "../components/AddStockForm";
-import { Modal } from "react-bootstrap"; // Import Modal from react-bootstrap
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "./ProcurementWarehouse.css";
 
 const ProcurementWarehouse = () => {
@@ -31,9 +29,9 @@ const ProcurementWarehouse = () => {
   const handleAddStock = (newItem) => {
     setStockDetailsList((prevList) => [
       ...prevList,
-      { id: prevList.length + 1, ...newItem }, // Ensure new item is added with a unique ID
+      { id: prevList.length + 1, ...newItem },
     ]);
-    setShowAddModal(false); // Close the modal after adding the stock
+    setShowAddModal(false);
   };
 
   const handleWithdraw = (id, amount) => {
@@ -203,17 +201,16 @@ const ProcurementWarehouse = () => {
       >
         เพิ่มสินค้า
       </button>
-      <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>เพิ่มสินค้าใหม่</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <AddStockForm
-            onAddStock={handleAddStock}
-            onCancel={() => setShowAddModal(false)}
-          />
-        </Modal.Body>
-      </Modal>
+      {showAddModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <AddStockForm
+              onAddStock={handleAddStock}
+              onCancel={() => setShowAddModal(false)}
+            />
+          </div>
+        </div>
+      )}
       <table className="procurement-orders-table">
         <thead>
           <tr className="procurement-orders-header-row">
