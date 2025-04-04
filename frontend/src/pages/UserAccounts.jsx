@@ -205,6 +205,7 @@ const UserAccounts = () => {
           userId={selectedUser.id}
           username={selectedUser.name}
           email={selectedUser.email}
+          role={selectedUser.role}
           handleClose={handleCloseResetModal}
         />
       )}

@@ -20,7 +20,7 @@ const ChangeRoleModal = ({ show, userId, username, email, currentRole, handleClo
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>
-          Account ID: {userId} {/* แสดงเฉพาะ ID ของผู้ใช้ */}
+          {username} 
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

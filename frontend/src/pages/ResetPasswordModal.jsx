@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const ResetPasswordModal = ({ show, userId, username, handleClose }) => {
+const ResetPasswordModal = ({ show, userId, username, role, handleClose }) => { // เพิ่ม role ใน Props
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
-  
 
   const handleResetPassword = () => {
     // ตรวจสอบว่าฟิลด์ทั้งหมดต้องไม่ว่าง
@@ -15,24 +13,26 @@ const ResetPasswordModal = ({ show, userId, username, handleClose }) => {
       setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
       return;
     }
-    
+
     // ตรวจสอบว่า newPassword และ confirmPassword ตรงกัน
     if (newPassword !== confirmPassword) {
       setError("รหัสผ่านใหม่ไม่ตรงกัน");
       return;
     }
-  
+
     setError("");
     alert(`Password for User ID: ${userId} (${username}) has been successfully reset!`);
     handleClose(); // ปิด Modal หลังจากดำเนินการ
   };
-  
 
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>
-          Reset Password for User ID: {userId} (Username: {username})
+          <div>
+            <div>{username}</div> {/* แสดง name */}
+            <small>{role}</small> {/* แสดง role ในบรรทัดถัดไป */}
+          </div>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
