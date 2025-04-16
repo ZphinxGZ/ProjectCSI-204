@@ -1,0 +1,222 @@
+.procurement-payments {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .procurement-payments-title {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .procurement-payments-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .procurement-payments-header {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+  }
+  
+  .procurement-payments-cell {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    color: #555;
+  
+  }
+  
+  .procurement-payments-row:nth-child(odd) {
+    background-color: #fcfcfc;
+  }
+  
+  .procurement-payments-row:hover {
+    background-color: #f1f1f1;
+  }
+  /* เดิมทั้งหมดยังใช้ได้ */
+
+.procurement-payments-status-paid {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .procurement-payments-status-pending {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  .payment-filter-wrapper {
+    display: flex;
+    justify-content: flex-end; /* ดันไปขวา */
+    margin-bottom: 16px;
+  }
+  
+  .payment-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .payment-filter label {
+    font-weight: bold;
+  }
+  
+  .payment-filter select {
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  .payment-filter-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .left-controls {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .right-controls {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .payment-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .create-payment-button {
+    background-color: #28a745; /* สีเขียวทันสมัย */
+    color: white;
+    padding:  10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  
+  .create-payment-button:hover {
+    background-color: #157347;
+  }
+  
+  .filter-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .pagination-controls button {
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 520;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: #333;
+    min-width: 40px;
+  }
+  
+  .pagination-controls button:hover:not(:disabled) {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #e9ecef;
+  }
+  
+  .pagination-controls .current-page {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    font-size: 16px;
+  }
+  .payment-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .payment-search-input {
+    padding: 6px 10px 6px 30px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 200px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .payment-search-input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  .budget-toggle-button{
+    margin-right: auto;
+    padding: 11px 16px;
+    background-color: #4b89e7;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
