@@ -198,10 +198,11 @@
   cursor: pointer;
 }
 .link-button {
-  background: none;
+  background: transparent;
   border: none;
   color: #007bff;
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
+  width: 140px;
 }
