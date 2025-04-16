@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PaymentFilter from "../components/payment/PaymentFilter";
-import PaymentDetailModal from "../components/payment/PaymentDetailModal";
+import CreatePaymentForm from "../components/payment/CreatePaymentForm";
+import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProcurementPayments.css";
 import Budgets from "../components/payment/Budgets";
@@ -8,6 +9,7 @@ import Budgets from "../components/payment/Budgets";
 const ProcurementPayments = () => {
   const [filterStatus, setFilterStatus] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [showForm, setShowForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -16,8 +18,6 @@ const ProcurementPayments = () => {
     return saved ? parseFloat(saved) : 500000;
   });
   const [showBudget, setShowBudget] = useState(false);
-
-  const [selectedPayment, setSelectedPayment] = useState(null); // ✅ เพิ่ม
 
   const [paymentData, setPaymentData] = useState([
     {
@@ -52,6 +52,27 @@ const ProcurementPayments = () => {
     },
   ]);
 
+  const handleCreate = (newEntry) => {
+    const newId = Date.now().toString();
+    const installments = parseInt(newEntry.installments);
+    const currentInstallment = parseInt(newEntry.currentInstallment);
+    const isInstallment = newEntry.payment_method === "Installment";
+    const installmentAmount = isInstallment
+      ? parseFloat((newEntry.amount / installments).toFixed(2))
+      : null;
+
+    const createdEntry = {
+      id: newId,
+      ...newEntry,
+      installments: isInstallment ? installments : null,
+      installmentAmount,
+      currentInstallment: isInstallment ? currentInstallment : null,
+    };
+
+    setPaymentData((prev) => [...prev, createdEntry]);
+    setShowForm(false);
+  };
+
   const filteredData = paymentData.filter((item) => {
     const matchStatus = filterStatus ? item.status === filterStatus : true;
     const matchSearch =
@@ -71,6 +92,12 @@ const ProcurementPayments = () => {
     setCurrentPage(page);
   };
 
+  const totalPaid = paymentData.reduce(
+    (sum, p) => sum + (p.status === "ชำระแล้ว" ? p.amount : 0),
+    0
+  );
+  const remainingBudget = totalBudget - totalPaid;
+
   const headers = [
     { key: "reference_number", label: "ใบชำระ" },
     { key: "payment_date", label: "วันที่ชำระเงิน" },
@@ -86,17 +113,6 @@ const ProcurementPayments = () => {
     new Date(dateStr).toLocaleDateString("th-TH");
 
   const renderCell = (key, value, row) => {
-    if (key === "reference_number") {
-      return (
-        <button
-          className="link-button"
-          onClick={() => setSelectedPayment(row)}
-        >
-          {value}
-        </button>
-      );
-    }
-
     if (key === "payment_date") return formatDate(value);
     if (key === "amount") return value.toFixed(2);
     if (key === "status") {
@@ -132,6 +148,13 @@ const ProcurementPayments = () => {
 
       <div className="payment-toolbar">
         <button
+          className="create-payment-button"
+          onClick={() => setShowForm(true)}
+        >
+          + สร้างข้อมูลใหม่
+        </button>
+
+        <button
           className="budget-toggle-button"
           onClick={() => setShowBudget(prev => !prev)}
         >
@@ -153,7 +176,6 @@ const ProcurementPayments = () => {
           <PaymentFilter onStatusChange={setFilterStatus} />
         </div>
       </div>
-
       {showBudget && (
         <Budgets
           show={showBudget}
@@ -163,6 +185,18 @@ const ProcurementPayments = () => {
           setTotalBudget={setTotalBudget}
         />
       )}
+
+      <Modal show={showForm} onHide={() => setShowForm(false)} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>สร้างข้อมูลใหม่</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CreatePaymentForm
+            onCreate={handleCreate}
+            onCancel={() => setShowForm(false)}
+          />
+        </Modal.Body>
+      </Modal>
 
       <table className="procurement-payments-table">
         <thead>
@@ -206,14 +240,6 @@ const ProcurementPayments = () => {
           &raquo;
         </button>
       </div>
-
-      {/* ✅ แสดง PaymentDetailModal ถ้ามีการเลือก */}
-      {selectedPayment && (
-        <PaymentDetailModal
-          payment={selectedPayment}
-          onClose={() => setSelectedPayment(null)}
-        />
-      )}
     </div>
   );
 };
