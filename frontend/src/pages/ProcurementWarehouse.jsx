@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddStockForm from "../components/AddStockForm";
 import { Modal } from "react-bootstrap"; // Import Modal from react-bootstrap
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "./ProcurementWarehouse.css";
 
 const ProcurementWarehouse = () => {
-  const [stockDetailsList, setStockDetailsList] = useState([
-    { id: 1, item: "ปากกา", type: "เครื่องเขียน", unit: "ชิ้น", price: 10, minStock: 50, storage: "A1", remaining: 120 },
-    { id: 2, item: "ดินสอ", type: "เครื่องเขียน", unit: "ชิ้น", price: 5, minStock: 30, storage: "B2", remaining: 25 },
-    { id: 3, item: "ยางลบ", type: "เครื่องเขียน", unit: "ชิ้น", price: 3, minStock: 20, storage: "C3", remaining: 50 },
-  ]);
-
+  const [stockDetailsList, setStockDetailsList] = useState([]);
   const [selectedWarehouse, setSelectedWarehouse] = useState("Main Warehouse");
   const [showAddModal, setShowAddModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +22,39 @@ const ProcurementWarehouse = () => {
     { key: "remaining", label: "คงเหลือ" },
     { key: "action", label: "การกระทำ" },
   ];
+
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+        const response = await fetch("http://localhost:3001/api/inventory", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        if (response.ok) {
+          const formattedData = data.inventoryItems.map((item, index) => ({
+            id: index + 1,
+            item: item.name,
+            type: item.category,
+            unit: item.unit,
+            price: item.unit_cost,
+            minStock: item.min_order,
+            storage: "N/A", // Assuming storage location is not provided in the API
+            remaining: item.current_quantity,
+          }));
+          setStockDetailsList(formattedData);
+        } else {
+          console.error("Failed to fetch inventory:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching inventory:", error);
+      }
+    };
+
+    fetchInventory();
+  }, []);
 
   const handleAddStock = (newItem) => {
     setStockDetailsList((prevList) => [
