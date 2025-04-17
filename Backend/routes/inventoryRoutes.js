@@ -1,5 +1,5 @@
 import express from 'express';
-import { receiveInventory, issueInventory, getInventoryItems, updateInventoryItem } from '../controllers/inventoryController.js';
+import { receiveInventory, issueInventory, getInventoryItems, updateInventoryItem, getInventoryItemById } from '../controllers/inventoryController.js';
 import { protect, authorizeRoles } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -12,6 +12,9 @@ router.post('/inventory/issue', protect, authorizeRoles('Procurement', 'Admin'),
 
 // Route to fetch inventory items
 router.get('/inventory', protect, authorizeRoles('Procurement', 'Admin', 'Finance'), getInventoryItems);
+
+// Route to fetch a single inventory item by ID
+router.get('/inventory/:id', protect, authorizeRoles('Procurement', 'Admin', 'Finance'), getInventoryItemById);
 
 // Route to update inventory item
 router.put('/inventory/:id', protect, authorizeRoles('Procurement', 'Admin'), updateInventoryItem);
