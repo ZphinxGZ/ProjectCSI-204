@@ -12,7 +12,7 @@ const PaymentDetailModal = ({ payment, onClose }) => {
   if (!payment) return null;
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" >
       <div className="receipt-paper" id="receipt-content">
         <button className="close-button no-print" onClick={onClose}>✖</button>
 

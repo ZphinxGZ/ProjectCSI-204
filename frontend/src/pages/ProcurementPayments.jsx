@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PaymentFilter from "../components/payment/PaymentFilter";
 import PaymentDetailModal from "../components/payment/PaymentDetailModal";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,41 +16,42 @@ const ProcurementPayments = () => {
     return saved ? parseFloat(saved) : 500000;
   });
   const [showBudget, setShowBudget] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState(null);
+  const [paymentData, setPaymentData] = useState([]);
 
-  const [selectedPayment, setSelectedPayment] = useState(null); // ✅ เพิ่ม
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("❌ ไม่พบ token");
+      return;
+    }
 
-  const [paymentData, setPaymentData] = useState([
-    {
-      id: "67e9f988b76cd88b54b104c2",
-      payment_date: "2023-10-05T00:00:00.000+00:00",
-      payment_method: "Transfer",
-      amount: 2000,
-      reference_number: "PAY-2023-001",
-      notes: "Partial payment for invoice INV-2023-001",
-      processed_by: "67e9f8484d2b0484b7b5b1af",
-      status: "ชำระแล้ว",
-    },
-    {
-      id: "67e9f9aab76cd88b54b104c4",
-      payment_date: "2024-01-15T00:00:00.000+00:00",
-      payment_method: "Cheque",
-      amount: 0,
-      reference_number: "PAY-2024-001",
-      notes: "Awaiting approval",
-      processed_by: "แม่",
-      status: "ค้างชำระ",
-    },
-    {
-      id: "67e9f9aab76cd88b54b104c5",
-      payment_date: "2024-01-20T00:00:00.000+00:00",
-      payment_method: "Cash",
-      amount: 5000,
-      reference_number: "PAY-2024-002",
-      notes: "Full payment for invoice INV-2024-002",
-      processed_by: "พ่อ",
-      status: "ชำระแล้ว",
-    },
-  ]);
+    fetch("http://localhost:3001/api/purchase-requisitions", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("ไม่สามารถดึงข้อมูลได้");
+        return res.json();
+      })
+      .then((data) => {
+        const requisitions = data.purchaseRequisitions || [];
+        const transformed = requisitions.map((item) => ({
+          id: item._id,
+          payment_date: item.required_date,
+          payment_method: "-",
+          amount: item.total_amount,
+          reference_number: `PAY-${item._id.slice(-4)}`,
+          notes: item.notes || "-",
+          processed_by: item.requester_id?.full_name || "ไม่ทราบชื่อผู้ขอ",
+          status: item.status || "รอดำเนินการ",
+        }));
+        setPaymentData(transformed);
+      })
+      .catch((err) => console.error("❌ โหลดข้อมูลล้มเหลว:", err.message));
+  }, []);
 
   const filteredData = paymentData.filter((item) => {
     const matchStatus = filterStatus ? item.status === filterStatus : true;
@@ -133,7 +134,7 @@ const ProcurementPayments = () => {
       <div className="payment-toolbar">
         <button
           className="budget-toggle-button"
-          onClick={() => setShowBudget(prev => !prev)}
+          onClick={() => setShowBudget((prev) => !prev)}
         >
           📊 งบประมาณ
         </button>
@@ -176,18 +177,26 @@ const ProcurementPayments = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((payment, index) => (
-            <tr key={payment.id} className="procurement-payments-row">
-              <td className="procurement-payments-cell">
-                {(currentPage - 1) * itemsPerPage + index + 1}
+          {paginatedData.length === 0 ? (
+            <tr>
+              <td colSpan={headers.length + 1} className="text-center">
+                ไม่มีข้อมูลใบชำระ
               </td>
-              {headers.map((header) => (
-                <td key={header.key} className="procurement-payments-cell">
-                  {renderCell(header.key, payment[header.key], payment)}
-                </td>
-              ))}
             </tr>
-          ))}
+          ) : (
+            paginatedData.map((payment, index) => (
+              <tr key={payment.id} className="procurement-payments-row">
+                <td className="procurement-payments-cell">
+                  {(currentPage - 1) * itemsPerPage + index + 1}
+                </td>
+                {headers.map((header) => (
+                  <td key={header.key} className="procurement-payments-cell">
+                    {renderCell(header.key, payment[header.key], payment)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
@@ -207,7 +216,6 @@ const ProcurementPayments = () => {
         </button>
       </div>
 
-      {/* ✅ แสดง PaymentDetailModal ถ้ามีการเลือก */}
       {selectedPayment && (
         <PaymentDetailModal
           payment={selectedPayment}
