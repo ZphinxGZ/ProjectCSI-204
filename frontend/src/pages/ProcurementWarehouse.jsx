@@ -13,6 +13,8 @@ const ProcurementWarehouse = () => {
   const [withdrawalLogs, setWithdrawalLogs] = useState([]);
   const [selectedItemDetails, setSelectedItemDetails] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editItemDetails, setEditItemDetails] = useState(null);
   const itemsPerPage = 5;
 
   const headers = [
@@ -118,6 +120,87 @@ const ProcurementWarehouse = () => {
     }
   };
 
+  const handleEditClick = (stock) => {
+    setEditItemDetails(stock);
+    setShowEditModal(true);
+  };
+
+  const handleEditSave = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3001/api/inventory/${editItemDetails._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: editItemDetails.item,
+          category: editItemDetails.type,
+          unit: editItemDetails.unit,
+          min_order: editItemDetails.minStock,
+          unit_cost: editItemDetails.price,
+          current_quantity: editItemDetails.remaining,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Item updated successfully.");
+        setShowEditModal(false);
+        setStockDetailsList((prevList) =>
+          prevList.map((stock) =>
+            stock._id === editItemDetails._id ? { ...editItemDetails } : stock
+          )
+        );
+      } else {
+        console.error("Failed to update item:", data.message);
+        alert(`Error updating item: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error updating item:", error.message);
+      alert("An unexpected error occurred while updating the item.");
+    }
+  };
+
+  const handleSaveEditedItem = async (editedItem) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3001/api/inventory/${editedItem._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: editedItem.name,
+          category: editedItem.category,
+          unit: editedItem.unit,
+          min_order: editedItem.min_order,
+          unit_cost: editedItem.unit_cost,
+          current_quantity: editedItem.current_quantity,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Item updated successfully.");
+        setStockDetailsList((prevList) =>
+          prevList.map((stock) =>
+            stock._id === editedItem._id ? { ...stock, ...editedItem } : stock
+          )
+        );
+        setShowDetailsModal(false);
+      } else {
+        console.error("Failed to update item:", data.message);
+        alert(`Error updating item: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error updating item:", error.message);
+      alert("An unexpected error occurred while updating the item.");
+    }
+  };
+
   const renderCell = (key, value, stock) => {
     if (key === "item") {
       return (
@@ -132,17 +215,25 @@ const ProcurementWarehouse = () => {
     }
     if (key === "action") {
       return (
-        <button
-          className="procurement-orders-withdraw-button styled-withdraw-button"
-          onClick={() => {
-            const amount = parseInt(prompt(`Enter amount to withdraw for ${stock.item}:`), 10);
-            if (!isNaN(amount) && amount > 0) {
-              handleWithdraw(stock.id, amount);
-            }
-          }}
-        >
-          เบิกจ่าย
-        </button>
+        <div>
+          <button
+            className="procurement-orders-withdraw-button styled-withdraw-button"
+            onClick={() => {
+              const amount = parseInt(prompt(`Enter amount to withdraw for ${stock.item}:`), 10);
+              if (!isNaN(amount) && amount > 0) {
+                handleWithdraw(stock.id, amount);
+              }
+            }}
+          >
+            เบิกจ่าย
+          </button>
+          {/* <button
+            className="procurement-orders-edit-button styled-edit-button"
+            onClick={() => handleEditClick(stock)}
+          >
+            แก้ไข
+          </button> */}
+        </div>
       );
     }
     if (typeof value === "number") {
@@ -313,7 +404,71 @@ const ProcurementWarehouse = () => {
         show={showDetailsModal}
         onHide={() => setShowDetailsModal(false)}
         inventoryItem={selectedItemDetails}
+        onSave={handleSaveEditedItem}
       />
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>แก้ไขข้อมูลสินค้า</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {editItemDetails && (
+            <div>
+              <label>ชื่อสินค้า:</label>
+              <input
+                type="text"
+                value={editItemDetails.item}
+                onChange={(e) =>
+                  setEditItemDetails({ ...editItemDetails, item: e.target.value })
+                }
+              />
+              <label>หมวดหมู่:</label>
+              <input
+                type="text"
+                value={editItemDetails.type}
+                onChange={(e) =>
+                  setEditItemDetails({ ...editItemDetails, type: e.target.value })
+                }
+              />
+              <label>หน่วย:</label>
+              <input
+                type="text"
+                value={editItemDetails.unit}
+                onChange={(e) =>
+                  setEditItemDetails({ ...editItemDetails, unit: e.target.value })
+                }
+              />
+              <label>จำนวนขั้นต่ำ:</label>
+              <input
+                type="number"
+                value={editItemDetails.minStock}
+                onChange={(e) =>
+                  setEditItemDetails({ ...editItemDetails, minStock: parseInt(e.target.value, 10) })
+                }
+              />
+              <label>ราคาต่อหน่วย:</label>
+              <input
+                type="number"
+                value={editItemDetails.price}
+                onChange={(e) =>
+                  setEditItemDetails({ ...editItemDetails, price: parseFloat(e.target.value) })
+                }
+              />
+              <label>จำนวนคงเหลือ:</label>
+              <input
+                type="number"
+                value={editItemDetails.remaining}
+                onChange={(e) =>
+                  setEditItemDetails({ ...editItemDetails, remaining: parseInt(e.target.value, 10) })
+                }
+              />
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <button onClick={() => setShowEditModal(false)}>ยกเลิก</button>
+          <button onClick={handleEditSave}>บันทึก</button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
