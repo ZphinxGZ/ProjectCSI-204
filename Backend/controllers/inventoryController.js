@@ -1,5 +1,6 @@
 import Inventory from '../models/InventoryItem.js';
 import InventoryTransaction from '../models/InventoryTransaction.js';
+import mongoose from 'mongoose';
 
 export const receiveInventory = async (req, res) => {
   try {
@@ -109,18 +110,24 @@ export const getInventoryItemById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid inventory item ID." });
+    }
+
     // Find the inventory item by ID
     const inventoryItem = await Inventory.findById(id);
     if (!inventoryItem) {
-      return res.status(404).json({ message: 'Inventory item not found.' });
+      return res.status(404).json({ message: "Inventory item not found." });
     }
 
     res.status(200).json({
-      message: 'Inventory item fetched successfully.',
+      message: "Inventory item fetched successfully.",
       inventoryItem,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server error.', error: error.message });
+    console.error("Error fetching inventory item:", error.message);
+    res.status(500).json({ message: "Server error.", error: error.message });
   }
 };
 

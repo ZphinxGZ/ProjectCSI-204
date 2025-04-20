@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AddStockForm from "../components/AddStockForm";
+import InventoryDetailsModal from "../components/InventoryDetailsModal";
 import { Modal } from "react-bootstrap"; // Import Modal from react-bootstrap
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "./ProcurementWarehouse.css";
@@ -10,6 +11,8 @@ const ProcurementWarehouse = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [withdrawalLogs, setWithdrawalLogs] = useState([]);
+  const [selectedItemDetails, setSelectedItemDetails] = useState(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const itemsPerPage = 5;
 
   const headers = [
@@ -34,8 +37,8 @@ const ProcurementWarehouse = () => {
         });
         const data = await response.json();
         if (response.ok) {
-          const formattedData = data.inventoryItems.map((item, index) => ({
-            id: index + 1,
+          const formattedData = data.inventoryItems.map((item) => ({
+            id: item._id, // Use the actual MongoDB ObjectId
             item: item.name,
             type: item.category,
             unit: item.unit,
@@ -93,7 +96,40 @@ const ProcurementWarehouse = () => {
     // Logic to create PR can be added here
   };
 
+  const handleItemClick = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3001/api/inventory/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSelectedItemDetails(data.inventoryItem);
+        setShowDetailsModal(true);
+      } else {
+        console.error("Failed to fetch item details:", data.message);
+        alert(`Error fetching item details: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error fetching item details:", error.message);
+      alert("An unexpected error occurred while fetching item details.");
+    }
+  };
+
   const renderCell = (key, value, stock) => {
+    if (key === "item") {
+      return (
+        <span
+          className="item-link"
+          onClick={() => handleItemClick(stock.id)}
+          style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+        >
+          {value}
+        </span>
+      );
+    }
     if (key === "action") {
       return (
         <button
@@ -273,6 +309,11 @@ const ProcurementWarehouse = () => {
           </li>
         ))}
       </ul>
+      <InventoryDetailsModal
+        show={showDetailsModal}
+        onHide={() => setShowDetailsModal(false)}
+        inventoryItem={selectedItemDetails}
+      />
     </div>
   );
 };

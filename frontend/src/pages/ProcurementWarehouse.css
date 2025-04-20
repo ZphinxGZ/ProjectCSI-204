@@ -198,3 +198,12 @@
     padding: 8px 12px;
     color: #555;
   }
+
+  .item-link {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+  }
+  .item-link:hover {
+    text-decoration: none;
+  }
